@@ -1,0 +1,2392 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>EcommPilot — Visão geral</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+/* ──────────────────────────────────────────────────────────────────────────
+   EcommPilot — shared visual system
+   Continuity of the established identity (Plus Jakarta Sans + JetBrains Mono,
+   card-on-canvas, vibrant accents, rounded cards) applied to the briefing's
+   five-screen scheme. Interface language: pt-BR.
+   ────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --canvas: #EEF0F4;
+  --card: #FFFFFF;
+  --card-muted: #F6F7F9;
+  --line: #E7EAEF;
+  --line-strong: #D5D9E0;
+
+  --ink: #0E1116;
+  --ink-2: #3A4150;
+  --ink-3: #6B7280;
+  --ink-4: #9AA1AC;
+  --ink-5: #C4C9D1;
+
+  /* Brand accents (identity signatures) */
+  --violet: #6D5BFF;
+  --violet-soft: #EFEBFF;
+  --indigo: #4458F5;
+  --pink: #FF6B9B;
+  --pink-soft: #FFE7EE;
+  --teal: #14B8A6;
+  --teal-soft: #DCFAF4;
+  --amber: #F59E0B;
+  --amber-soft: #FEF3C7;
+  --rose: #F43F5E;
+  --rose-soft: #FFE4E6;
+  --sky: #38BDF8;
+  --sky-soft: #E0F2FE;
+  --slate: #64748B;
+  --slate-soft: #EDF0F4;
+
+  /* Severity → color (briefing: crítico/alto/médio/oportunidade) */
+  --sev-critico: var(--rose);
+  --sev-critico-soft: var(--rose-soft);
+  --sev-alto: var(--amber);
+  --sev-alto-soft: var(--amber-soft);
+  --sev-medio: var(--slate);
+  --sev-medio-soft: var(--slate-soft);
+  --sev-oportunidade: var(--teal);
+  --sev-oportunidade-soft: var(--teal-soft);
+
+  --primary: #0E1116;
+  --primary-ink: #FFFFFF;
+
+  --radius-xl: 22px;
+  --radius-lg: 18px;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --radius-xs: 8px;
+
+  --shadow-card: 0 1px 0 rgba(15,17,22,0.02), 0 1px 3px rgba(15,17,22,0.04), 0 12px 28px -16px rgba(15,17,22,0.10);
+  --shadow-pop: 0 1px 0 rgba(15,17,22,0.02), 0 24px 48px -18px rgba(15,17,22,0.18);
+
+  --pad: 20px;
+  --gap: 14px;
+}
+
+[data-density="compact"] { --pad: 14px; --gap: 10px; }
+[data-density="comfy"]   { --pad: 26px; --gap: 18px; }
+
+[data-theme="dark"] {
+  --canvas: #0B0D11;
+  --card: #14171D;
+  --card-muted: #1A1E26;
+  --line: #232831;
+  --line-strong: #2E343F;
+
+  --ink: #F1F3F7;
+  --ink-2: #C7CDD7;
+  --ink-3: #8B92A0;
+  --ink-4: #5F6776;
+  --ink-5: #3F4654;
+
+  --violet: #8B7BFF;
+  --violet-soft: #221C45;
+  --pink: #FF7DA8;
+  --pink-soft: #3D1B2C;
+  --teal: #2DD4BF;
+  --teal-soft: #103833;
+  --amber: #FBBF24;
+  --amber-soft: #3A2B0C;
+  --rose: #FB7185;
+  --rose-soft: #3A1820;
+  --sky: #5DC9FB;
+  --sky-soft: #0E2A3D;
+  --slate: #94A3B8;
+  --slate-soft: #1E2530;
+
+  --primary: #FFFFFF;
+  --primary-ink: #0E1116;
+
+  --shadow-card: 0 1px 0 rgba(255,255,255,0.02), 0 12px 28px -16px rgba(0,0,0,0.6);
+  --shadow-pop: 0 24px 48px -18px rgba(0,0,0,0.7);
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: 'Plus Jakarta Sans', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-feature-settings: "tnum"; letter-spacing: -0.01em; }
+
+/* ── App shell ───────────────────────────────────────────── */
+.app {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 14px;
+  padding: 14px;
+  min-height: 100vh;
+}
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+.sidebar {
+  background: var(--card);
+  border-radius: var(--radius-xl);
+  padding: 20px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  box-shadow: var(--shadow-card);
+  position: sticky;
+  top: 14px;
+  height: calc(100vh - 28px);
+}
+.brand { display: flex; align-items: center; gap: 10px; padding: 4px 10px 22px; }
+.brand-mark {
+  width: 32px; height: 32px; border-radius: 10px;
+  background: linear-gradient(135deg, var(--violet) 0%, var(--pink) 100%);
+  display: grid; place-items: center;
+  color: white; font-weight: 700; font-size: 14px; letter-spacing: -0.02em;
+  box-shadow: 0 4px 12px -4px rgba(109, 91, 255, 0.5);
+}
+.brand-name { font-size: 15px; font-weight: 700; letter-spacing: -0.02em; color: var(--ink); }
+.brand-name sup { font-size: 9px; font-weight: 600; color: var(--ink-3); margin-left: 2px; vertical-align: super; }
+
+.store-switcher {
+  margin: 0 0 14px; padding: 10px 12px;
+  border: 1px solid var(--line);
+  background: var(--card-muted);
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex; align-items: center; gap: 10px;
+  transition: all .15s;
+  text-decoration: none;
+}
+.store-switcher:hover { border-color: var(--line-strong); }
+.store-avatar {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--teal), var(--sky));
+  flex-shrink: 0; color: white;
+  display: grid; place-items: center;
+  font-size: 11px; font-weight: 700; letter-spacing: -0.02em;
+}
+.store-meta { flex: 1; min-width: 0; }
+.store-name { font-size: 13px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.store-url { font-size: 11px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.store-chevron { color: var(--ink-4); flex-shrink: 0; }
+
+.nav-section-label {
+  font-size: 10.5px; font-weight: 600; color: var(--ink-4);
+  letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 14px 10px 6px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 9px 12px; border-radius: var(--radius-sm);
+  color: var(--ink-2); cursor: pointer;
+  font-size: 13px; font-weight: 500;
+  transition: all .12s; user-select: none;
+  text-decoration: none;
+}
+.nav-item:hover { background: var(--card-muted); color: var(--ink); }
+.nav-item.active {
+  background: var(--ink); color: var(--card);
+  font-weight: 600;
+  box-shadow: 0 4px 10px -4px rgba(15,17,22,0.25);
+}
+[data-theme="dark"] .nav-item.active {
+  background: var(--card-muted); color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--line-strong);
+}
+.nav-item .icon { width: 16px; height: 16px; color: var(--ink-3); flex-shrink: 0; }
+.nav-item:hover .icon { color: var(--ink); }
+.nav-item.active .icon { color: var(--card); }
+[data-theme="dark"] .nav-item.active .icon { color: var(--violet); }
+.nav-item .badge {
+  margin-left: auto; font-size: 10.5px; font-weight: 600;
+  padding: 1px 6px; border-radius: 999px;
+  background: var(--rose); color: white;
+  line-height: 1.4; min-width: 18px; text-align: center;
+}
+.nav-item.active .badge { background: var(--rose); color: white; }
+.nav-item .badge.muted { background: var(--card-muted); color: var(--ink-3); }
+.nav-item.active .badge.muted { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.85); }
+.nav-spacer { flex: 1; }
+
+.brief-card {
+  margin: 14px 2px 4px;
+  padding: 16px;
+  background: linear-gradient(160deg, #1B1F2A 0%, #0E1116 100%);
+  border-radius: var(--radius);
+  color: white;
+  position: relative; overflow: hidden;
+}
+.brief-card::before {
+  content: "";
+  position: absolute; top: -30px; right: -30px;
+  width: 90px; height: 90px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(109,91,255,0.6), transparent 70%);
+}
+[data-theme="dark"] .brief-card {
+  background: linear-gradient(160deg, var(--violet-soft) 0%, var(--card-muted) 100%);
+  border: 1px solid var(--line);
+}
+.brief-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: linear-gradient(135deg, var(--violet), var(--pink));
+  padding: 2px 8px; border-radius: 999px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  margin-bottom: 8px; position: relative; z-index: 1;
+}
+.brief-title { font-size: 13.5px; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 4px; position: relative; z-index: 1; }
+[data-theme="dark"] .brief-title { color: var(--ink); }
+.brief-sub { font-size: 11.5px; color: rgba(255,255,255,0.62); margin-bottom: 12px; line-height: 1.45; position: relative; z-index: 1; }
+[data-theme="dark"] .brief-sub { color: var(--ink-3); }
+.brief-btn {
+  appearance: none; border: 0;
+  background: white; color: #0E1116;
+  padding: 8px 14px; border-radius: 999px;
+  font-family: inherit; font-size: 12px; font-weight: 600;
+  cursor: pointer; width: 100%; position: relative; z-index: 1;
+}
+[data-theme="dark"] .brief-btn { background: var(--ink); color: var(--card); }
+
+.nav-footer {
+  padding: 12px 8px 4px; border-top: 1px solid var(--line);
+  margin-top: 10px;
+  display: flex; align-items: center; gap: 10px;
+}
+.user-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--amber), var(--rose));
+  color: white; display: grid; place-items: center;
+  font-size: 11px; font-weight: 700;
+}
+.user-name { font-size: 12.5px; font-weight: 600; color: var(--ink); }
+.user-role { font-size: 11px; color: var(--ink-3); }
+
+/* ── Main column + topbar ────────────────────────────────── */
+.main { min-width: 0; display: flex; flex-direction: column; gap: var(--gap); }
+
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 4px 6px; flex-wrap: wrap;
+}
+.topbar-left { display: flex; align-items: center; gap: 14px; }
+.topbar h1 { font-size: 24px; font-weight: 700; letter-spacing: -0.025em; margin: 0; }
+.topbar-sub { font-size: 13px; color: var(--ink-3); margin-top: 2px; }
+.topbar-actions { display: flex; align-items: center; gap: 8px; }
+
+.seg-pill {
+  display: inline-flex; background: var(--card);
+  border: 1px solid var(--line); border-radius: 999px;
+  padding: 3px; box-shadow: var(--shadow-card);
+}
+.seg-pill button {
+  appearance: none; border: 0; background: transparent;
+  color: var(--ink-3); padding: 6px 14px; white-space: nowrap;
+  font-family: inherit; font-size: 12.5px; font-weight: 500;
+  border-radius: 999px; cursor: pointer; transition: all .15s;
+}
+.seg-pill button:hover { color: var(--ink); }
+.seg-pill button.active { background: var(--ink); color: var(--card); }
+[data-theme="dark"] .seg-pill button.active { background: var(--violet); color: white; }
+
+.icon-btn {
+  appearance: none; width: 38px; height: 38px; border-radius: 50%;
+  background: var(--card); border: 1px solid var(--line);
+  cursor: pointer; color: var(--ink-2);
+  display: grid; place-items: center;
+  transition: all .15s; position: relative; box-shadow: var(--shadow-card);
+}
+.icon-btn:hover { color: var(--ink); border-color: var(--line-strong); }
+.icon-btn .ping {
+  position: absolute; top: 9px; right: 10px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--rose); border: 2px solid var(--card);
+}
+
+.btn-primary-pill {
+  appearance: none;
+  background: linear-gradient(135deg, var(--violet) 0%, var(--indigo) 100%);
+  color: white; border: 0;
+  padding: 10px 18px; border-radius: 999px; white-space: nowrap;
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  box-shadow: 0 6px 16px -4px rgba(109, 91, 255, 0.45);
+  transition: transform .12s;
+}
+.btn-primary-pill:hover { transform: translateY(-1px); }
+
+.btn-pill {
+  appearance: none; background: var(--card); color: var(--ink);
+  border: 1px solid var(--line);
+  padding: 9px 16px; border-radius: 999px;
+  font-family: inherit; font-size: 12.5px; font-weight: 600;
+  cursor: pointer; display: inline-flex; align-items: center; gap: 6px;
+  box-shadow: var(--shadow-card); transition: all .15s;
+}
+.btn-pill:hover { border-color: var(--line-strong); }
+.btn-pill.dark { background: var(--ink); color: var(--card); border-color: var(--ink); }
+[data-theme="dark"] .btn-pill.dark { background: var(--violet); color: white; border-color: var(--violet); }
+
+.live-text {
+  font-size: 12px; color: var(--ink-3);
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--card); padding: 6px 12px; border-radius: 999px;
+  border: 1px solid var(--line); box-shadow: var(--shadow-card);
+}
+.live-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.5);
+  animation: pulse 2s infinite;
+}
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.5); }
+  50% { box-shadow: 0 0 0 6px rgba(20, 184, 166, 0); }
+}
+
+/* ── Severity tag (shared) ───────────────────────────────── */
+.sev-tag {
+  font-size: 11.5px; font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 2px 10px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+}
+.sev-tag[data-sev="critico"]      { background: var(--sev-critico-soft);      color: var(--sev-critico); }
+.sev-tag[data-sev="alto"]         { background: var(--sev-alto-soft);         color: var(--sev-alto); }
+.sev-tag[data-sev="medio"]        { background: var(--sev-medio-soft);        color: var(--sev-medio); }
+.sev-tag[data-sev="oportunidade"] { background: var(--sev-oportunidade-soft); color: var(--sev-oportunidade); }
+[data-theme="dark"] .sev-tag[data-sev="medio"] { color: var(--ink-2); }
+
+/* Trigger / platform meta chips */
+.meta-chip {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10.5px; font-weight: 600;
+  color: var(--ink-3); background: var(--card-muted);
+  padding: 2px 7px; border-radius: 6px;
+  white-space: nowrap;
+}
+.meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--ink-4); flex-shrink: 0; }
+.meta-src { font-size: 11.5px; color: var(--ink-3); }
+.meta-time { font-size: 11.5px; color: var(--ink-4); }
+
+/* Confidence badge */
+.conf-badge {
+  font-size: 10.5px; font-weight: 600;
+  padding: 2px 8px; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.conf-badge[data-conf="alta"]  { background: var(--teal-soft);  color: var(--teal); }
+.conf-badge[data-conf="média"] { background: var(--amber-soft); color: var(--amber); }
+.conf-badge[data-conf="baixa"] { background: var(--slate-soft); color: var(--slate); }
+[data-theme="dark"] .conf-badge[data-conf="baixa"] { color: var(--ink-2); }
+
+/* ── Generic card ────────────────────────────────────────── */
+.panel-card {
+  background: var(--card);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-card);
+}
+.section-label {
+  font-size: 11px; font-weight: 700;
+  color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase;
+  margin: 0 0 10px;
+}
+
+/* ── Num pill inside narrative ───────────────────────────── */
+.num {
+  font-family: 'JetBrains Mono', monospace; font-weight: 600;
+  color: var(--ink); background: var(--card-muted);
+  padding: 0 5px; border-radius: 4px; font-size: 0.88em;
+}
+.num.down { color: var(--rose); background: var(--rose-soft); }
+.num.up   { color: var(--teal); background: var(--teal-soft); }
+
+/* ── Platform glyph + avatar ─────────────────────────────── */
+/* ── Vetor chips + extra platform tints ──────────────────── */
+.vec-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 10.5px; font-weight: 600; line-height: 1.25; padding: 2px 9px 2px 7px; border-radius: 999px; white-space: nowrap; }
+.vec-chip.lg { font-size: 11.5px; padding: 3px 11px 3px 9px; }
+.vec-chip svg { flex-shrink: 0; }
+.vec-chip.vec-violet { background: var(--violet-soft); color: var(--violet); }
+.vec-chip.vec-indigo { background: var(--violet-soft); color: var(--indigo); }
+.vec-chip.vec-pink   { background: var(--pink-soft);   color: var(--pink); }
+.vec-chip.vec-sky    { background: var(--sky-soft);    color: var(--sky); }
+.vec-chip.vec-amber  { background: var(--amber-soft);  color: var(--amber); }
+.vec-chip.vec-teal   { background: var(--teal-soft);   color: var(--teal); }
+.vec-chip.vec-slate  { background: var(--slate-soft);  color: var(--slate); }
+[data-theme="dark"] .vec-chip.vec-amber { color: var(--amber); }
+.plat-glyph.plat-pink { background: var(--pink-soft); color: var(--pink); }
+.plat-glyph.plat-teal { background: var(--teal-soft); color: var(--teal); }
+.plat-glyph { display: inline-grid; place-items: center; flex-shrink: 0; }
+.plat-glyph.plat-sky    { background: var(--sky-soft);    color: var(--sky); }
+.plat-glyph.plat-amber  { background: var(--amber-soft);  color: var(--amber); }
+.plat-glyph.plat-violet { background: var(--violet-soft); color: var(--violet); }
+[data-theme="dark"] .plat-glyph.plat-amber { color: var(--amber); }
+
+.avatar {
+  display: inline-grid; place-items: center;
+  border-radius: 50%; color: white; font-weight: 700;
+  letter-spacing: -0.02em; flex-shrink: 0;
+}
+
+.narrative {
+  font-size: 13px; color: var(--ink-2);
+  line-height: 1.55; margin: 0; text-wrap: pretty;
+}
+
+/* ── Modal scrim + slide-over (Card detalhe) ─────────────── */
+.scrim {
+  position: fixed; inset: 0;
+  background: rgba(15, 17, 22, 0.34);
+  backdrop-filter: blur(2px);
+  z-index: 50; opacity: 0; pointer-events: none;
+  transition: opacity .22s;
+}
+.scrim.open { opacity: 1; pointer-events: auto; }
+
+/* Empty state */
+.empty {
+  text-align: center; padding: 56px 20px; color: var(--ink-3);
+}
+.empty .em-mark {
+  width: 44px; height: 44px; margin: 0 auto 12px;
+  border-radius: 14px; background: var(--teal-soft); color: var(--teal);
+  display: grid; place-items: center;
+}
+.empty-title { font-size: 15px; color: var(--ink); font-weight: 600; margin-bottom: 4px; }
+.empty-sub { font-size: 13px; max-width: 320px; margin: 0 auto; }
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 760px) {
+  .app { grid-template-columns: 1fr; padding: 10px; }
+}
+
+</style>
+<style>
+/* Mobile responsivity — shared across all EcommPilot pages.
+   Loaded by Dashboard, Alerts, History, Integrations. */
+
+/* Mobile header (hidden on desktop) */
+.mobile-header {
+  display: none;
+  position: sticky; top: 0; z-index: 50;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 14px;
+  align-items: center; gap: 10px;
+  height: 54px;
+}
+.mobile-header .brand-mark { width: 30px; height: 30px; }
+.mobile-header .brand-name { font-size: 14px; font-weight: 700; letter-spacing: -0.02em; }
+.mobile-header .menu-btn,
+.mobile-header .right-btn {
+  appearance: none; border: 1px solid var(--line);
+  background: var(--card-muted);
+  width: 36px; height: 36px; border-radius: 10px;
+  display: grid; place-items: center;
+  cursor: pointer; color: var(--ink-2);
+  flex-shrink: 0;
+}
+.mobile-header .right-btn { position: relative; }
+.mobile-header .right-btn .ping {
+  position: absolute; top: 7px; right: 8px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--rose); border: 2px solid var(--card);
+}
+.mobile-header .spacer { flex: 1; }
+
+/* Backdrop + drawer when sidebar is opened on mobile */
+.sidebar-backdrop {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(15, 17, 22, 0.5);
+  backdrop-filter: blur(2px);
+  z-index: 99;
+  animation: fade-in .18s ease;
+}
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slide-in { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+
+/* ── ≤1100px: tighten layouts ── */
+@media (max-width: 1100px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .split { grid-template-columns: 1fr; }
+  .detail-card { position: static; max-height: none; }
+  .history-grid { grid-template-columns: 1fr; }
+}
+
+/* ── ≤900px: switch to mobile shell ── */
+@media (max-width: 900px) {
+  .app {
+    grid-template-columns: 1fr !important;
+    padding: 0 !important;
+    gap: 0 !important;
+  }
+  .mobile-header { display: flex; }
+
+  /* Sidebar becomes a left-drawer, hidden by default */
+  .sidebar {
+    position: fixed !important;
+    top: 0 !important; left: 0;
+    width: 280px;
+    height: 100vh !important;
+    z-index: 100;
+    border-radius: 0 !important;
+    transform: translateX(-100%);
+    transition: transform .22s cubic-bezier(0.32, 0.72, 0, 1);
+    box-shadow: 0 0 40px rgba(0,0,0,0.18);
+  }
+  body[data-nav-open="true"] .sidebar {
+    transform: translateX(0);
+  }
+  body[data-nav-open="true"] .sidebar-backdrop {
+    display: block;
+  }
+
+  .main {
+    padding: 12px !important;
+    min-height: calc(100vh - 54px);
+  }
+
+  /* Topbar reflows */
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    padding: 0 4px !important;
+  }
+  .topbar h1 { font-size: 22px !important; }
+  .topbar-actions { width: 100%; flex-wrap: wrap; }
+  .topbar-actions .btn-pill,
+  .topbar-actions .btn-primary-pill {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+
+  /* Stat strip */
+  .stats-row { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+  .stat-card { padding: 12px !important; gap: 10px !important; }
+  .stat-num { font-size: 18px !important; }
+  .stat-trend { display: none !important; }
+
+  /* Toolbar */
+  .toolbar-card { padding: 12px !important; }
+  .toolbar-row { gap: 8px !important; }
+  .search-input { min-width: 140px !important; padding: 7px 14px !important; }
+  .search-input .kbd { display: none; }
+  .status-tabs { overflow-x: auto; gap: 4px; }
+  .status-tab { margin-right: 18px !important; white-space: nowrap; flex-shrink: 0; padding: 10px 0 !important; font-size: 12.5px !important; }
+
+  /* Filter chips wrap */
+  .chip { font-size: 11.5px !important; padding: 5px 10px !important; }
+
+  /* Master/detail: detail card stacks below list */
+  .split { gap: 10px; }
+  .list-rows { max-height: 60vh !important; }
+
+  /* Cards grid (Integrations) */
+  .grid-cards { grid-template-columns: 1fr !important; gap: 10px !important; }
+
+  /* Timeline */
+  .timeline-day { grid-template-columns: 90px 1fr !important; }
+  .timeline-date { padding: 14px !important; }
+  .timeline-date .day-num { font-size: 22px !important; }
+  .event { padding: 12px 14px 12px 22px !important; grid-template-columns: 12px 1fr !important; gap: 10px !important; }
+  .event::before { left: 27px !important; }
+  .event-side { display: none !important; }
+
+  /* Insights column moves below */
+  .insight-card { padding: 14px !important; }
+  .insight-stat { font-size: 30px !important; }
+
+  /* Dashboard greeting + metrics */
+  .greeting-card { grid-template-columns: 1fr !important; padding: 18px !important; }
+  .greeting-h { font-size: 22px !important; }
+  .metrics { grid-template-columns: repeat(2, 1fr) !important; gap: 8px !important; }
+
+  /* Detail body padding */
+  .detail-head { padding: 14px 16px !important; }
+  .detail-body { padding: 14px 16px 20px !important; }
+  .detail-foot { padding: 12px 16px !important; }
+  .detail-headline { font-size: 17px !important; }
+  .int-detail-head { padding: 16px 16px 12px !important; }
+  .int-tabs { padding: 0 16px !important; gap: 12px; overflow-x: auto; }
+
+  /* Heatmap scrolls horizontally */
+  .heat-cells { overflow-x: auto; }
+
+  /* Hide non-essential filter labels */
+  .toolbar-row > span:first-child { display: none; }
+}
+
+/* ── ≤520px: phone tweaks ── */
+@media (max-width: 520px) {
+  .stats-row { grid-template-columns: 1fr !important; }
+  .topbar-actions .btn-pill { padding: 7px 10px !important; }
+  .topbar-actions .btn-primary-pill { padding: 7px 12px !important; }
+  .topbar-actions .icon-btn { width: 36px; height: 36px; }
+
+  .timeline-day { grid-template-columns: 70px 1fr !important; }
+  .timeline-date { padding: 12px 10px !important; }
+  .timeline-date .day-num { font-size: 18px !important; }
+  .timeline-date .day-label { font-size: 9px !important; }
+
+  .event-action { padding: 6px 10px !important; font-size: 11px !important; }
+
+  .row { padding: 12px 14px !important; gap: 10px !important; }
+  .row-spark { display: none; }
+  .row-time { font-size: 10px !important; }
+
+  .metrics { grid-template-columns: 1fr 1fr !important; }
+  .metric-card { padding: 12px !important; }
+
+  /* Hide search keyboard hint, show smaller chips */
+  .seg button { padding: 4px 8px !important; font-size: 11px !important; }
+}
+
+</style>
+<style>
+  /* ── Dashboard-specific layout ── */
+  .metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
+  .metric-card {
+    background: var(--card); border-radius: var(--radius-lg);
+    padding: 18px 18px 16px; box-shadow: var(--shadow-card);
+    transition: transform .15s, box-shadow .15s; position: relative; overflow: hidden;
+  }
+  .metric-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-pop); }
+  .metric-head { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .metric-icon {
+    width: 26px; height: 26px; border-radius: 8px;
+    display: grid; place-items: center; flex-shrink: 0;
+    background: var(--violet-soft); color: var(--violet);
+  }
+  .metric-icon.teal  { background: var(--teal-soft);  color: var(--teal); }
+  .metric-icon.amber { background: var(--amber-soft); color: var(--amber); }
+  .metric-icon.rose  { background: var(--rose-soft);  color: var(--rose); }
+  [data-theme="dark"] .metric-icon.amber { color: var(--amber); }
+  .metric-label { font-size: 12px; color: var(--ink-3); font-weight: 500; }
+  .metric-value { font-size: 26px; font-weight: 700; letter-spacing: -0.025em; color: var(--ink); line-height: 1.05; margin-bottom: 8px; }
+  .metric-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .metric-delta {
+    font-size: 11.5px; display: inline-flex; align-items: center; gap: 3px;
+    font-weight: 600; padding: 2px 7px; border-radius: 999px;
+  }
+  .metric-delta.up   { color: var(--teal); background: var(--teal-soft); }
+  .metric-delta.down { color: var(--rose); background: var(--rose-soft); }
+
+  .grid-2 { display: grid; grid-template-columns: 1.55fr 1fr; gap: var(--gap); align-items: start; }
+
+  .block {
+    background: var(--card); border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-card); padding: 20px 22px;
+  }
+  .block-head {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; margin-bottom: 18px;
+  }
+  .block-title { font-size: 15px; font-weight: 700; letter-spacing: -0.015em; }
+  .block-title .sub { font-size: 12px; color: var(--ink-3); font-weight: 500; margin-left: 8px; }
+  .link-btn {
+    appearance: none; border: 0; background: transparent;
+    color: var(--violet); font-family: inherit; font-size: 12.5px; font-weight: 600;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 4px; text-decoration: none;
+  }
+  .link-btn:hover { text-decoration: underline; }
+
+  /* Bar chart */
+  .bars { display: flex; align-items: flex-end; gap: 14px; height: 200px; padding-top: 8px; }
+  .bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 8px; height: 100%; justify-content: flex-end; }
+  .bar-val { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-3); font-weight: 600; opacity: 0; transition: opacity .15s; }
+  .bar-col:hover .bar-val { opacity: 1; }
+  .bar-col.peak .bar-val { opacity: 1; color: var(--violet); }
+  .bar {
+    width: 100%; max-width: 46px; border-radius: 8px 8px 4px 4px;
+    background: var(--violet-soft); transition: background .15s, filter .15s; min-height: 6px;
+  }
+  .bar-col:hover .bar { filter: brightness(0.97); }
+  .bar-col.peak .bar { background: linear-gradient(180deg, var(--violet), var(--indigo)); }
+  .bar-day { font-size: 11.5px; color: var(--ink-3); font-weight: 500; }
+  .bar-col.peak .bar-day { color: var(--ink); font-weight: 600; }
+
+  /* ── Assertividade do Pilot ─────────────────────────────────────── */
+  .assert-grid { display: grid; grid-template-columns: 1.62fr 1fr; gap: 26px; align-items: stretch; }
+  .assert-left { display: flex; flex-direction: column; }
+  .assert-kpi-row { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 2px; }
+  .assert-kpi { font-family: 'JetBrains Mono', monospace; font-size: 40px; font-weight: 700; letter-spacing: -0.03em; line-height: 1; color: var(--ink); }
+  .assert-kpi .pct { font-size: 22px; color: var(--ink-3); font-weight: 600; margin-left: 1px; }
+  .assert-delta {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: 999px;
+    color: var(--teal); background: var(--teal-soft);
+  }
+  .assert-cap { font-size: 12.5px; color: var(--ink-3); margin-top: 7px; }
+  .assert-chart { width: 100%; margin-top: 14px; display: block; overflow: visible; }
+  .assert-chart .grid-ln { stroke: var(--line); stroke-width: 1; }
+  .assert-chart .meta-ln { stroke: var(--violet); stroke-width: 1.3; stroke-dasharray: 4 4; opacity: .55; }
+  .assert-chart .meta-tag { font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600; fill: var(--violet); opacity: .85; }
+  .assert-chart .axis-lbl { font-size: 10.5px; font-weight: 500; fill: var(--ink-4); }
+  .assert-chart .area-fill { fill: url(#assertGrad); }
+  .assert-chart .line-pth { fill: none; stroke: var(--violet); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+  .assert-chart .dot { fill: #fff; stroke: var(--violet); stroke-width: 2; }
+  .assert-chart .dot-last { fill: var(--violet); stroke: #fff; stroke-width: 2.5; }
+  .assert-chart .val-tag { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; fill: var(--violet); }
+
+  .calib { border-left: 1px solid var(--line); padding-left: 24px; display: flex; flex-direction: column; }
+  .calib-h { font-size: 12.5px; font-weight: 700; letter-spacing: -0.01em; color: var(--ink); margin-bottom: 2px; }
+  .calib-sub { font-size: 11.5px; color: var(--ink-4); margin-bottom: 16px; line-height: 1.4; }
+  .calib-row { margin-bottom: 18px; }
+  .calib-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
+  .calib-tier { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--ink-2); }
+  .calib-tier .conf-dot { width: 7px; height: 7px; border-radius: 999px; }
+  .conf-dot.alta { background: var(--teal); }
+  .conf-dot.media { background: var(--amber); }
+  .conf-dot.baixa { background: var(--slate); }
+  .calib-n { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--ink-4); font-weight: 600; }
+  .calib-track { position: relative; height: 9px; border-radius: 999px; background: var(--slate-soft); overflow: visible; }
+  .calib-fill { position: absolute; inset: 0 auto 0 0; height: 100%; border-radius: 999px; }
+  .calib-fill.alta { background: var(--teal); }
+  .calib-fill.media { background: var(--amber); }
+  .calib-fill.baixa { background: var(--slate); }
+  .calib-mark { position: absolute; top: -3px; width: 2px; height: 15px; border-radius: 2px; background: var(--ink); }
+  .calib-mark::after { content: ""; position: absolute; top: -3px; left: -2px; width: 6px; height: 6px; border-radius: 999px; background: var(--ink); }
+  .calib-legend-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-top: 7px; }
+  .calib-real { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700; color: var(--ink); white-space: nowrap; }
+  .calib-claim { font-size: 11px; color: var(--ink-4); white-space: nowrap; }
+  .calib-foot { margin-top: auto; padding-top: 14px; font-size: 11.5px; color: var(--ink-3); line-height: 1.5; border-top: 1px solid var(--line); }
+  .calib-foot b { color: var(--ink-2); font-weight: 600; }
+  .assert-legend { display: flex; align-items: center; gap: 16px; margin-top: 12px; }
+  .assert-legend .li { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: var(--ink-3); font-weight: 500; }
+  .assert-legend .sw { width: 14px; height: 3px; border-radius: 2px; }
+  .assert-legend .sw.line { background: var(--violet); }
+  .assert-legend .sw.meta { background: repeating-linear-gradient(90deg, var(--violet) 0 4px, transparent 4px 7px); opacity: .7; }
+
+  @media (max-width: 1100px) {
+    .assert-grid { grid-template-columns: 1fr; gap: 20px; }
+    .calib { border-left: 0; border-top: 1px solid var(--line); padding-left: 0; padding-top: 18px; }
+  }
+
+  /* Connections mirror */
+  .cx-row {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--line);
+  }
+  .cx-row:last-child { border-bottom: 0; padding-bottom: 0; }
+  .cx-row:first-of-type { padding-top: 0; }
+  .cx-meta { flex: 1; min-width: 0; }
+  .cx-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .cx-sync { font-size: 11.5px; color: var(--ink-3); margin-top: 3px; display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+  .cx-sync-t { color: var(--ink-4); }
+  .status-badge {
+    font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 999px;
+    display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
+  }
+  .status-badge.ok    { background: var(--teal-soft);  color: var(--teal); }
+  .status-badge.warn  { background: var(--amber-soft); color: var(--amber); }
+  .status-badge.err   { background: var(--rose-soft);  color: var(--rose); }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .cx-note {
+    margin-top: 16px; font-size: 11.5px; color: var(--ink-4);
+    display: flex; align-items: center; gap: 7px; line-height: 1.4;
+  }
+
+  /* ── Tour interativo (Tela 0B) ─────────────────────── */
+  .tour-cta {
+    appearance: none; border: 1px solid var(--line); background: var(--card); color: var(--ink-2);
+    font-family: inherit; font-size: 12px; font-weight: 600; padding: 8px 13px; border-radius: 999px;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 7px; transition: all .14s;
+  }
+  .tour-cta:hover { border-color: var(--violet); color: var(--violet); }
+  .tour-cta .tour-pulse { width: 7px; height: 7px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 0 0 var(--violet); animation: tourpulse 2s infinite; }
+  @keyframes tourpulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--violet) 55%, transparent); } 70% { box-shadow: 0 0 0 7px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+  .tour-overlay { position: fixed; inset: 0; z-index: 1200; }
+  .tour-spot { position: absolute; border-radius: 14px; box-shadow: 0 0 0 9999px rgba(8,11,18,.62); transition: all .35s cubic-bezier(.4,0,.2,1); pointer-events: none; outline: 2px solid var(--violet); outline-offset: 3px; }
+  [data-theme="dark"] .tour-spot { box-shadow: 0 0 0 9999px rgba(0,0,0,.72); }
+  .tour-pop {
+    position: absolute; width: 312px; max-width: calc(100vw - 32px); background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; box-shadow: 0 24px 60px -20px rgba(8,11,18,.5); padding: 17px 18px 15px;
+    transition: all .35s cubic-bezier(.4,0,.2,1);
+  }
+  .tour-step-no { font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--violet); display: flex; align-items: center; gap: 8px; }
+  .tour-step-no .of { color: var(--ink-4); font-weight: 600; letter-spacing: 0; text-transform: none; }
+  .tour-h { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; margin: 9px 0 6px; }
+  .tour-p { font-size: 13px; line-height: 1.55; color: var(--ink-2); text-wrap: pretty; }
+  .tour-p .vchip-inline { display: inline-flex; vertical-align: middle; margin: 0 1px; }
+  .tour-foot { display: flex; align-items: center; gap: 8px; margin-top: 15px; }
+  .tour-dots { display: flex; gap: 5px; margin-right: auto; }
+  .tour-dots i { width: 6px; height: 6px; border-radius: 50%; background: var(--line-strong, var(--line)); transition: all .2s; }
+  .tour-dots i.on { background: var(--violet); width: 16px; border-radius: 999px; }
+  .tour-skip { appearance: none; border: 0; background: none; color: var(--ink-4); font-family: inherit; font-size: 12px; font-weight: 600; cursor: pointer; padding: 7px 4px; }
+  .tour-skip:hover { color: var(--ink-2); }
+  .tour-next { appearance: none; border: 0; cursor: pointer; background: var(--primary); color: var(--primary-ink, var(--canvas)); font-family: inherit; font-size: 12.5px; font-weight: 700; padding: 9px 15px; border-radius: 999px; display: inline-flex; align-items: center; gap: 6px; }
+  .tour-back { appearance: none; border: 1px solid var(--line); background: var(--card); color: var(--ink-2); cursor: pointer; font-family: inherit; font-size: 12.5px; font-weight: 600; padding: 9px 13px; border-radius: 999px; }
+  @media (max-width: 640px) {
+    .tour-pop { left: 16px !important; right: 16px !important; width: auto; }
+  }
+
+  /* Recent alerts */
+  .recent-row {
+    display: grid; grid-template-columns: 36px 1fr auto auto; gap: 14px;
+    align-items: center; padding: 14px 12px; border-radius: var(--radius);
+    cursor: pointer; transition: background .12s; text-decoration: none; color: inherit;
+  }
+  .recent-row:hover { background: var(--card-muted); }
+  .recent-glyph { width: 36px; height: 36px; border-radius: 11px; display: grid; place-items: center; }
+  .recent-glyph[data-sev="critico"]      { background: var(--sev-critico-soft);      color: var(--sev-critico); }
+  .recent-glyph[data-sev="alto"]         { background: var(--sev-alto-soft);         color: var(--sev-alto); }
+  .recent-glyph[data-sev="medio"]        { background: var(--sev-medio-soft);        color: var(--sev-medio); }
+  .recent-glyph[data-sev="oportunidade"] { background: var(--sev-oportunidade-soft); color: var(--sev-oportunidade); }
+  .recent-body { min-width: 0; }
+  .recent-head { font-size: 13.5px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink); line-height: 1.35; margin-bottom: 3px;
+    overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; }
+  .recent-meta { display: flex; align-items: center; gap: 7px; }
+  .recent-time { font-size: 11.5px; color: var(--ink-4); font-family: 'JetBrains Mono', monospace; white-space: nowrap; }
+
+  @media (max-width: 1100px) {
+    .metrics { grid-template-columns: repeat(2, 1fr); }
+    .grid-2 { grid-template-columns: 1fr; }
+  }
+</style></head>
+<body>
+  <div id="root"></div>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+  <script type="text/babel">
+// Mobile header — shared across all EcommPilot pages.
+// Renders a sticky top bar that opens the sidebar drawer on small screens.
+// Body data-nav-open="true" is what triggers the drawer slide-in.
+
+const MobileHeader = ({ title }) => {
+  const [open, setOpen] = React.useState(false);
+  React.useEffect(() => {
+    document.body.dataset.navOpen = open ? "true" : "false";
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [open]);
+
+  // Close on Escape
+  React.useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") setOpen(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  return (
+    <>
+      <div className="mobile-header">
+        <button className="menu-btn" aria-label="Open menu" onClick={() => setOpen(true)}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 6h18M3 12h18M3 18h18" />
+          </svg>
+        </button>
+        <div className="brand-mark">E</div>
+        <div className="brand-name">{title || "EcommPilot"}</div>
+        <div className="spacer" />
+        <button className="right-btn" aria-label="Notifications">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9" />
+            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" />
+          </svg>
+          <span className="ping" />
+        </button>
+      </div>
+      {open && <div className="sidebar-backdrop" onClick={() => setOpen(false)} />}
+    </>
+  );
+};
+
+window.MobileHeader = MobileHeader;
+
+</script>
+  <script type="text/babel">
+
+// tweaks-panel.jsx
+// Reusable Tweaks shell + form-control helpers.
+//
+// Owns the host protocol (listens for __activate_edit_mode / __deactivate_edit_mode,
+// posts __edit_mode_available / __edit_mode_set_keys / __edit_mode_dismissed) so
+// individual prototypes don't re-roll it. Ships a consistent set of controls so you
+// don't hand-draw <input type="range">, segmented radios, steppers, etc.
+//
+// Usage (in an HTML file that loads React + Babel):
+//
+//   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+//     "primaryColor": "#D97757",
+//     "fontSize": 16,
+//     "density": "regular",
+//     "dark": false
+//   }/*EDITMODE-END*/;
+//
+//   function App() {
+//     const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+//     return (
+//       <div style={{ fontSize: t.fontSize, color: t.primaryColor }}>
+//         Hello
+//         <TweaksPanel>
+//           <TweakSection label="Typography" />
+//           <TweakSlider label="Font size" value={t.fontSize} min={10} max={32} unit="px"
+//                        onChange={(v) => setTweak('fontSize', v)} />
+//           <TweakRadio  label="Density" value={t.density}
+//                        options={['compact', 'regular', 'comfy']}
+//                        onChange={(v) => setTweak('density', v)} />
+//           <TweakSection label="Theme" />
+//           <TweakColor  label="Primary" value={t.primaryColor}
+//                        onChange={(v) => setTweak('primaryColor', v)} />
+//           <TweakToggle label="Dark mode" value={t.dark}
+//                        onChange={(v) => setTweak('dark', v)} />
+//         </TweaksPanel>
+//       </div>
+//     );
+//   }
+//
+// ─────────────────────────────────────────────────────────────────────────────
+
+const __TWEAKS_STYLE = `
+  .twk-panel{position:fixed;right:16px;bottom:16px;z-index:2147483646;width:280px;
+    max-height:calc(100vh - 32px);display:flex;flex-direction:column;
+    background:rgba(250,249,247,.78);color:#29261b;
+    -webkit-backdrop-filter:blur(24px) saturate(160%);backdrop-filter:blur(24px) saturate(160%);
+    border:.5px solid rgba(255,255,255,.6);border-radius:14px;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset,0 12px 40px rgba(0,0,0,.18);
+    font:11.5px/1.4 ui-sans-serif,system-ui,-apple-system,sans-serif;overflow:hidden}
+  .twk-hd{display:flex;align-items:center;justify-content:space-between;
+    padding:10px 8px 10px 14px;cursor:move;user-select:none}
+  .twk-hd b{font-size:12px;font-weight:600;letter-spacing:.01em}
+  .twk-x{appearance:none;border:0;background:transparent;color:rgba(41,38,27,.55);
+    width:22px;height:22px;border-radius:6px;cursor:default;font-size:13px;line-height:1}
+  .twk-x:hover{background:rgba(0,0,0,.06);color:#29261b}
+  .twk-body{padding:2px 14px 14px;display:flex;flex-direction:column;gap:10px;
+    overflow-y:auto;overflow-x:hidden;min-height:0;
+    scrollbar-width:thin;scrollbar-color:rgba(0,0,0,.15) transparent}
+  .twk-body::-webkit-scrollbar{width:8px}
+  .twk-body::-webkit-scrollbar-track{background:transparent;margin:2px}
+  .twk-body::-webkit-scrollbar-thumb{background:rgba(0,0,0,.15);border-radius:4px;
+    border:2px solid transparent;background-clip:content-box}
+  .twk-body::-webkit-scrollbar-thumb:hover{background:rgba(0,0,0,.25);
+    border:2px solid transparent;background-clip:content-box}
+  .twk-row{display:flex;flex-direction:column;gap:5px}
+  .twk-row-h{flex-direction:row;align-items:center;justify-content:space-between;gap:10px}
+  .twk-lbl{display:flex;justify-content:space-between;align-items:baseline;
+    color:rgba(41,38,27,.72)}
+  .twk-lbl>span:first-child{font-weight:500}
+  .twk-val{color:rgba(41,38,27,.5);font-variant-numeric:tabular-nums}
+
+  .twk-sect{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:rgba(41,38,27,.45);padding:10px 0 0}
+  .twk-sect:first-child{padding-top:0}
+
+  .twk-field{appearance:none;width:100%;height:26px;padding:0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;
+    background:rgba(255,255,255,.6);color:inherit;font:inherit;outline:none}
+  .twk-field:focus{border-color:rgba(0,0,0,.25);background:rgba(255,255,255,.85)}
+  select.twk-field{padding-right:22px;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'><path fill='rgba(0,0,0,.5)' d='M0 0h10L5 6z'/></svg>");
+    background-repeat:no-repeat;background-position:right 8px center}
+
+  .twk-slider{appearance:none;-webkit-appearance:none;width:100%;height:4px;margin:6px 0;
+    border-radius:999px;background:rgba(0,0,0,.12);outline:none}
+  .twk-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;
+    width:14px;height:14px;border-radius:50%;background:#fff;
+    border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+  .twk-slider::-moz-range-thumb{width:14px;height:14px;border-radius:50%;
+    background:#fff;border:.5px solid rgba(0,0,0,.12);box-shadow:0 1px 3px rgba(0,0,0,.2);cursor:default}
+
+  .twk-seg{position:relative;display:flex;padding:2px;border-radius:8px;
+    background:rgba(0,0,0,.06);user-select:none}
+  .twk-seg-thumb{position:absolute;top:2px;bottom:2px;border-radius:6px;
+    background:rgba(255,255,255,.9);box-shadow:0 1px 2px rgba(0,0,0,.12);
+    transition:left .15s cubic-bezier(.3,.7,.4,1),width .15s}
+  .twk-seg.dragging .twk-seg-thumb{transition:none}
+  .twk-seg button{appearance:none;position:relative;z-index:1;flex:1;border:0;
+    background:transparent;color:inherit;font:inherit;font-weight:500;min-height:22px;
+    border-radius:6px;cursor:default;padding:4px 6px;line-height:1.2;
+    overflow-wrap:anywhere}
+
+  .twk-toggle{position:relative;width:32px;height:18px;border:0;border-radius:999px;
+    background:rgba(0,0,0,.15);transition:background .15s;cursor:default;padding:0}
+  .twk-toggle[data-on="1"]{background:#34c759}
+  .twk-toggle i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;
+    background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.25);transition:transform .15s}
+  .twk-toggle[data-on="1"] i{transform:translateX(14px)}
+
+  .twk-num{display:flex;align-items:center;height:26px;padding:0 0 0 8px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:7px;background:rgba(255,255,255,.6)}
+  .twk-num-lbl{font-weight:500;color:rgba(41,38,27,.6);cursor:ew-resize;
+    user-select:none;padding-right:8px}
+  .twk-num input{flex:1;min-width:0;height:100%;border:0;background:transparent;
+    font:inherit;font-variant-numeric:tabular-nums;text-align:right;padding:0 8px 0 0;
+    outline:none;color:inherit;-moz-appearance:textfield}
+  .twk-num input::-webkit-inner-spin-button,.twk-num input::-webkit-outer-spin-button{
+    -webkit-appearance:none;margin:0}
+  .twk-num-unit{padding-right:8px;color:rgba(41,38,27,.45)}
+
+  .twk-btn{appearance:none;height:26px;padding:0 12px;border:0;border-radius:7px;
+    background:rgba(0,0,0,.78);color:#fff;font:inherit;font-weight:500;cursor:default}
+  .twk-btn:hover{background:rgba(0,0,0,.88)}
+  .twk-btn.secondary{background:rgba(0,0,0,.06);color:inherit}
+  .twk-btn.secondary:hover{background:rgba(0,0,0,.1)}
+
+  .twk-swatch{appearance:none;-webkit-appearance:none;width:56px;height:22px;
+    border:.5px solid rgba(0,0,0,.1);border-radius:6px;padding:0;cursor:default;
+    background:transparent;flex-shrink:0}
+  .twk-swatch::-webkit-color-swatch-wrapper{padding:0}
+  .twk-swatch::-webkit-color-swatch{border:0;border-radius:5.5px}
+  .twk-swatch::-moz-color-swatch{border:0;border-radius:5.5px}
+`;
+
+// ── useTweaks ───────────────────────────────────────────────────────────────
+// Single source of truth for tweak values. setTweak persists via the host
+// (__edit_mode_set_keys → host rewrites the EDITMODE block on disk).
+function useTweaks(defaults) {
+  const [values, setValues] = React.useState(defaults);
+  // Accepts either setTweak('key', value) or setTweak({ key: value, ... }) so a
+  // useState-style call doesn't write a "[object Object]" key into the persisted
+  // JSON block.
+  const setTweak = React.useCallback((keyOrEdits, val) => {
+    const edits = typeof keyOrEdits === 'object' && keyOrEdits !== null
+      ? keyOrEdits : { [keyOrEdits]: val };
+    setValues((prev) => ({ ...prev, ...edits }));
+    window.parent.postMessage({ type: '__edit_mode_set_keys', edits }, '*');
+  }, []);
+  return [values, setTweak];
+}
+
+// ── TweaksPanel ─────────────────────────────────────────────────────────────
+// Floating shell. Registers the protocol listener BEFORE announcing
+// availability — if the announce ran first, the host's activate could land
+// before our handler exists and the toolbar toggle would silently no-op.
+// The close button posts __edit_mode_dismissed so the host's toolbar toggle
+// flips off in lockstep; the host echoes __deactivate_edit_mode back which
+// is what actually hides the panel.
+function TweaksPanel({ title = 'Tweaks', children }) {
+  const [open, setOpen] = React.useState(false);
+  const dragRef = React.useRef(null);
+  const offsetRef = React.useRef({ x: 16, y: 16 });
+  const PAD = 16;
+
+  const clampToViewport = React.useCallback(() => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const w = panel.offsetWidth, h = panel.offsetHeight;
+    const maxRight = Math.max(PAD, window.innerWidth - w - PAD);
+    const maxBottom = Math.max(PAD, window.innerHeight - h - PAD);
+    offsetRef.current = {
+      x: Math.min(maxRight, Math.max(PAD, offsetRef.current.x)),
+      y: Math.min(maxBottom, Math.max(PAD, offsetRef.current.y)),
+    };
+    panel.style.right = offsetRef.current.x + 'px';
+    panel.style.bottom = offsetRef.current.y + 'px';
+  }, []);
+
+  React.useEffect(() => {
+    if (!open) return;
+    clampToViewport();
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', clampToViewport);
+      return () => window.removeEventListener('resize', clampToViewport);
+    }
+    const ro = new ResizeObserver(clampToViewport);
+    ro.observe(document.documentElement);
+    return () => ro.disconnect();
+  }, [open, clampToViewport]);
+
+  React.useEffect(() => {
+    const onMsg = (e) => {
+      const t = e?.data?.type;
+      if (t === '__activate_edit_mode') setOpen(true);
+      else if (t === '__deactivate_edit_mode') setOpen(false);
+    };
+    window.addEventListener('message', onMsg);
+    window.parent.postMessage({ type: '__edit_mode_available' }, '*');
+    return () => window.removeEventListener('message', onMsg);
+  }, []);
+
+  const dismiss = () => {
+    setOpen(false);
+    window.parent.postMessage({ type: '__edit_mode_dismissed' }, '*');
+  };
+
+  const onDragStart = (e) => {
+    const panel = dragRef.current;
+    if (!panel) return;
+    const r = panel.getBoundingClientRect();
+    const sx = e.clientX, sy = e.clientY;
+    const startRight = window.innerWidth - r.right;
+    const startBottom = window.innerHeight - r.bottom;
+    const move = (ev) => {
+      offsetRef.current = {
+        x: startRight - (ev.clientX - sx),
+        y: startBottom - (ev.clientY - sy),
+      };
+      clampToViewport();
+    };
+    const up = () => {
+      window.removeEventListener('mousemove', move);
+      window.removeEventListener('mouseup', up);
+    };
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', up);
+  };
+
+  if (!open) return null;
+  return (
+    <>
+      <style>{__TWEAKS_STYLE}</style>
+      <div ref={dragRef} className="twk-panel"
+           style={{ right: offsetRef.current.x, bottom: offsetRef.current.y }}>
+        <div className="twk-hd" onMouseDown={onDragStart}>
+          <b>{title}</b>
+          <button className="twk-x" aria-label="Close tweaks"
+                  onMouseDown={(e) => e.stopPropagation()}
+                  onClick={dismiss}>✕</button>
+        </div>
+        <div className="twk-body">{children}</div>
+      </div>
+    </>
+  );
+}
+
+// ── Layout helpers ──────────────────────────────────────────────────────────
+
+function TweakSection({ label, children }) {
+  return (
+    <>
+      <div className="twk-sect">{label}</div>
+      {children}
+    </>
+  );
+}
+
+function TweakRow({ label, value, children, inline = false }) {
+  return (
+    <div className={inline ? 'twk-row twk-row-h' : 'twk-row'}>
+      <div className="twk-lbl">
+        <span>{label}</span>
+        {value != null && <span className="twk-val">{value}</span>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ── Controls ────────────────────────────────────────────────────────────────
+
+function TweakSlider({ label, value, min = 0, max = 100, step = 1, unit = '', onChange }) {
+  return (
+    <TweakRow label={label} value={`${value}${unit}`}>
+      <input type="range" className="twk-slider" min={min} max={max} step={step}
+             value={value} onChange={(e) => onChange(Number(e.target.value))} />
+    </TweakRow>
+  );
+}
+
+function TweakToggle({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <button type="button" className="twk-toggle" data-on={value ? '1' : '0'}
+              role="switch" aria-checked={!!value}
+              onClick={() => onChange(!value)}><i /></button>
+    </div>
+  );
+}
+
+function TweakRadio({ label, value, options, onChange }) {
+  const trackRef = React.useRef(null);
+  const [dragging, setDragging] = React.useState(false);
+  const opts = options.map((o) => (typeof o === 'object' ? o : { value: o, label: o }));
+  const idx = Math.max(0, opts.findIndex((o) => o.value === value));
+  const n = opts.length;
+
+  // The active value is read by pointer-move handlers attached for the lifetime
+  // of a drag — ref it so a stale closure doesn't fire onChange for every move.
+  const valueRef = React.useRef(value);
+  valueRef.current = value;
+
+  const segAt = (clientX) => {
+    const r = trackRef.current.getBoundingClientRect();
+    const inner = r.width - 4;
+    const i = Math.floor(((clientX - r.left - 2) / inner) * n);
+    return opts[Math.max(0, Math.min(n - 1, i))].value;
+  };
+
+  const onPointerDown = (e) => {
+    setDragging(true);
+    const v0 = segAt(e.clientX);
+    if (v0 !== valueRef.current) onChange(v0);
+    const move = (ev) => {
+      if (!trackRef.current) return;
+      const v = segAt(ev.clientX);
+      if (v !== valueRef.current) onChange(v);
+    };
+    const up = () => {
+      setDragging(false);
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+
+  return (
+    <TweakRow label={label}>
+      <div ref={trackRef} role="radiogroup" onPointerDown={onPointerDown}
+           className={dragging ? 'twk-seg dragging' : 'twk-seg'}>
+        <div className="twk-seg-thumb"
+             style={{ left: `calc(2px + ${idx} * (100% - 4px) / ${n})`,
+                      width: `calc((100% - 4px) / ${n})` }} />
+        {opts.map((o) => (
+          <button key={o.value} type="button" role="radio" aria-checked={o.value === value}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </TweakRow>
+  );
+}
+
+function TweakSelect({ label, value, options, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <select className="twk-field" value={value} onChange={(e) => onChange(e.target.value)}>
+        {options.map((o) => {
+          const v = typeof o === 'object' ? o.value : o;
+          const l = typeof o === 'object' ? o.label : o;
+          return <option key={v} value={v}>{l}</option>;
+        })}
+      </select>
+    </TweakRow>
+  );
+}
+
+function TweakText({ label, value, placeholder, onChange }) {
+  return (
+    <TweakRow label={label}>
+      <input className="twk-field" type="text" value={value} placeholder={placeholder}
+             onChange={(e) => onChange(e.target.value)} />
+    </TweakRow>
+  );
+}
+
+function TweakNumber({ label, value, min, max, step = 1, unit = '', onChange }) {
+  const clamp = (n) => {
+    if (min != null && n < min) return min;
+    if (max != null && n > max) return max;
+    return n;
+  };
+  const startRef = React.useRef({ x: 0, val: 0 });
+  const onScrubStart = (e) => {
+    e.preventDefault();
+    startRef.current = { x: e.clientX, val: value };
+    const decimals = (String(step).split('.')[1] || '').length;
+    const move = (ev) => {
+      const dx = ev.clientX - startRef.current.x;
+      const raw = startRef.current.val + dx * step;
+      const snapped = Math.round(raw / step) * step;
+      onChange(clamp(Number(snapped.toFixed(decimals))));
+    };
+    const up = () => {
+      window.removeEventListener('pointermove', move);
+      window.removeEventListener('pointerup', up);
+    };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className="twk-num">
+      <span className="twk-num-lbl" onPointerDown={onScrubStart}>{label}</span>
+      <input type="number" value={value} min={min} max={max} step={step}
+             onChange={(e) => onChange(clamp(Number(e.target.value)))} />
+      {unit && <span className="twk-num-unit">{unit}</span>}
+    </div>
+  );
+}
+
+function TweakColor({ label, value, onChange }) {
+  return (
+    <div className="twk-row twk-row-h">
+      <div className="twk-lbl"><span>{label}</span></div>
+      <input type="color" className="twk-swatch" value={value}
+             onChange={(e) => onChange(e.target.value)} />
+    </div>
+  );
+}
+
+function TweakButton({ label, onClick, secondary = false }) {
+  return (
+    <button type="button" className={secondary ? 'twk-btn secondary' : 'twk-btn'}
+            onClick={onClick}>{label}</button>
+  );
+}
+
+Object.assign(window, {
+  useTweaks, TweaksPanel, TweakSection, TweakRow,
+  TweakSlider, TweakToggle, TweakRadio, TweakSelect,
+  TweakText, TweakNumber, TweakColor, TweakButton,
+});
+
+</script>
+  <script type="text/babel">
+// EcommPilot — dados de exemplo (pt-BR), modelados no ERD do Supabase.
+// clients · connections · trigger_catalog · cards · card_outcomes
+
+// Séries para mini-gráficos
+const sUp    = [42, 44, 41, 46, 48, 45, 49, 52, 51, 55, 58, 57, 62, 64];
+const sDown  = [62, 60, 63, 61, 58, 59, 55, 52, 49, 45, 42, 38, 36, 32];
+const sDip   = [55, 57, 56, 58, 59, 56, 54, 49, 41, 35, 38, 42, 45, 48];
+const sSpike = [40, 42, 41, 43, 44, 43, 45, 48, 52, 58, 64, 68, 72, 75];
+const sUp2   = [30, 33, 31, 36, 38, 40, 44, 47, 50, 54, 58, 63, 69, 74];
+const sWob   = [48, 51, 49, 52, 47, 50, 53, 49, 52, 48, 51, 50, 53, 51];
+
+// clients
+const CLIENT = {
+  id: "cl_01",
+  name: "Norte Streetwear",
+  account_ref: "norte.com.br",
+  initials: "NS",
+};
+
+// auth_users — usuário logado (acesso de agência, modelo high-touch v1)
+const USER = {
+  id: "u_01",
+  name: "Kenzo Tanaka",
+  email: "kenzo@ecommpilot.com",
+  role: "Gestor",
+  role_type: "performance_marketer",
+  experience_level: "advanced",
+  initials: "KT",
+};
+
+// connections — FONTE ÚNICA do status (espelhada em leitura no Dashboard)
+const CONNECTIONS = [
+  { id: "cx_meta", platform: "Meta Ads",        icon: "Meta",      vector: "midia_paga", status: "conectado", last_sync: "há 3 min" },
+  { id: "cx_gads", platform: "Google Ads",      icon: "Google",    vector: "midia_paga", status: "conectado", last_sync: "há 6 min" },
+  { id: "cx_ga4",  platform: "GA4",             icon: "Analytics", vector: "ga4",        status: "atraso",    last_sync: "há 9 h" },
+  { id: "cx_klav", platform: "Klaviyo · email", icon: "Mail",      vector: "email",      status: "conectado", last_sync: "há 12 min" },
+  { id: "cx_gsc",  platform: "Search Console",  icon: "Search",    vector: "seo",        status: "conectado", last_sync: "há 28 min" },
+  { id: "cx_soc",  platform: "Instagram · TikTok", icon: "SocialV", vector: "social",    status: "erro",      last_sync: "há 2 dias" },
+  { id: "cx_attr", platform: "Atribuição",      icon: "Link",      vector: "atribuicao", status: "conectado", last_sync: "há 6 min" },
+];
+
+// Métricas do Dashboard (Tela 1) — delta respeita direção semântica
+const METRICS = [
+  { key: "receita", label: "Receita",     value: "R$ 184.206", deltaText: "+12,4%",  good: true,  series: sUp,    icon: "Coin" },
+  { key: "pedidos", label: "Pedidos",     value: "2.358",      deltaText: "+8,1%",   good: true,  series: sUp2,   icon: "Cart" },
+  { key: "roas",    label: "ROAS",        value: "3,42×",      deltaText: "+0,38",   good: true,  series: sUp,    icon: "Gauge" },
+  { key: "cpa",     label: "CPA médio",   value: "R$ 32,18",   deltaText: "+18,6%",  good: false, series: sSpike, icon: "Target" },
+];
+
+// Receita por dia (7 barras)
+const REVENUE_DAYS = [
+  { d: "seg", v: 22140 },
+  { d: "ter", v: 25800 },
+  { d: "qua", v: 24310 },
+  { d: "qui", v: 29050 },
+  { d: "sex", v: 33620 },
+  { d: "sáb", v: 28740 },
+  { d: "dom", v: 20546 },
+];
+
+// cards — state ∈ open | in_progress | resolved | ignored
+const CARDS = [
+  // ── NOVOS (open) ───────────────────────────────────────────
+  {
+    id: "c1", vector: "ga4",
+    trigger_id: "G4-007",
+    severity: "critico",
+    platform: "GA4",
+    platformIcon: "Analytics",
+    state: "open",
+    timeAgo: "há 12 min",
+    headline: "Conversão do checkout caiu 32% no mobile nas últimas 6 horas",
+    subline: "Conclusões de checkout no mobile passaram de {prev|3,1%} para {now|2,1%} entre 10h e 16h de hoje.",
+    dir: "down",
+    chartLabel: "Conv. checkout mobile",
+    chartCurrent: "2,1%",
+    series: sDip, domain: [30, 65],
+    hypothesis: { confidence: "alta", text: "O deploy do botão Apple Pay às 9h47 quebrou o fluxo de pagamento no mobile — a taxa de erro em /checkout/pagamento subiu 8,4×." },
+    firstAction: { text: "Reverter o deploy do Apple Pay (commit a3f8c2)", owner: "Time de eng.", eta: "~4 min" },
+    followUps: [
+      "Abrir investigação no Sentry — 47 erros únicos em /checkout/pagamento desde as 9h47.",
+      "Pausar campanhas mobile do Meta enquanto o funil estiver quebrado (~R$ 4.200/dia em risco).",
+    ],
+    altCauses: [
+      { confidence: "média", text: "Safari iOS 17.4 — historicamente associado a regressões no SDK de pagamento." },
+      { confidence: "baixa", text: "Tráfego de campanha social paga com visitantes de menor intenção." },
+    ],
+    impact: { value: "R$ 18.400", note: "receita protegida em 48h", dir: "up" },
+  },
+  {
+    id: "c2", vector: "midia_paga",
+    trigger_id: "MA-004",
+    severity: "oportunidade",
+    platform: "Meta Ads",
+    platformIcon: "Meta",
+    state: "open",
+    timeAgo: "há 1 h",
+    headline: "Campanha de “Camiseta Oversized” disparou — ROAS 2,4× acima da média",
+    subline: "R$ {prev|1.840} investidos retornaram R$ {now|8.210} (ROAS 4,46) nas últimas 48 h.",
+    dir: "up",
+    chartLabel: "ROAS da campanha",
+    chartCurrent: "4,46×",
+    series: sSpike, domain: [1.5, 5],
+    hypothesis: { confidence: "alta", text: "O criativo UGC “antes/depois 30 dias” subiu segunda e está com CTR 4,1% vs. média de 1,6% da conta." },
+    firstAction: { text: "Subir o orçamento diário de R$ 2.000 para R$ 5.000", owner: "Gestão de mídia", eta: "~10 min" },
+    followUps: [
+      "Duplicar o criativo vencedor para o TikTok — o formato rende 1,8× nesta conta.",
+      "Avisar o estoque: SKU NRT-CAM-OV esgota em ~6 dias no ritmo atual.",
+    ],
+    altCauses: [
+      { confidence: "média", text: "Menção da @julia.fits (412 mil seguidores) no domingo." },
+      { confidence: "baixa", text: "Sazonalidade — buscas por oversized +22% no mês." },
+    ],
+    impact: { value: "R$ 14.000/dia", note: "receita incremental projetada", dir: "up" },
+  },
+  {
+    id: "c3", vector: "midia_paga",
+    trigger_id: "GA-011",
+    severity: "alto",
+    platform: "Google Ads",
+    platformIcon: "Google",
+    state: "open",
+    timeAgo: "há 3 h",
+    headline: "CPC nas palavras de marca subiu 41% desde sexta",
+    subline: "O CPC médio da campanha de marca passou de R$ {prev|0,62} para R$ {now|0,88}.",
+    dir: "down",
+    chartLabel: "CPC de marca",
+    chartCurrent: "R$ 0,88",
+    series: sSpike, domain: [0.5, 1.0],
+    hypothesis: { confidence: "média", text: "Um concorrente passou a dar lance nos termos de marca da Norte na sexta às 16h; a parcela de impressões perdida por ranking caiu 14 pontos." },
+    firstAction: { text: "Aumentar o lance de marca em 15% para recuperar impressões", owner: "Gestão de mídia", eta: "~8 min" },
+    followUps: [
+      "Abrir denúncia de uso de marca registrada — resolução típica em 3 a 5 dias úteis.",
+      "Adicionar correspondência negativa nas campanhas genéricas para evitar canibalização.",
+    ],
+    altCauses: [
+      { confidence: "baixa", text: "Queda de índice de qualidade — experiência da landing page sinalizada como abaixo da média." },
+    ],
+    impact: { value: "R$ 2.600", note: "economia mensal estimada", dir: "up" },
+  },
+  {
+    id: "c4", vector: "seo",
+    trigger_id: "G4-019",
+    severity: "medio",
+    platform: "GA4",
+    platformIcon: "Analytics",
+    state: "open",
+    timeAgo: "ontem",
+    headline: "Sessões orgânicas na coleção de moletons caíram 18% na semana",
+    subline: "Tráfego orgânico para /colecao/moletons passou de {prev|14.812} para {now|12.140} sessões.",
+    dir: "down",
+    chartLabel: "Sessões orgânicas",
+    chartCurrent: "12.140",
+    series: sDown, domain: [10000, 16000],
+    hypothesis: { confidence: "média", text: "Parece uma mudança de layout na SERP do Google — a posição para “moletom oversized” caiu de #4 para #11, sem alteração na página." },
+    firstAction: { text: "Adicionar schema de Produto em /colecao/moletons", owner: "Time de eng.", eta: "~30 min" },
+    followUps: [
+      "Levantar pauta editorial — abordar 4 veículos com matérias parecidas.",
+      "Rodar auditoria Lighthouse para checar regressão de LCP no mobile.",
+    ],
+    altCauses: [
+      { confidence: "baixa", text: "Duas matérias novas de portais de moda ranqueando acima da coleção." },
+    ],
+    impact: { value: "R$ 3.100", note: "receita orgânica em risco/mês", dir: "up" },
+  },
+
+  // ── EM ANDAMENTO (in_progress) ─────────────────────────────
+  {
+    id: "c5", vector: "midia_paga",
+    trigger_id: "MA-012",
+    severity: "alto",
+    platform: "Meta Ads",
+    platformIcon: "Meta",
+    state: "in_progress",
+    timeAgo: "há 5 h",
+    assignee: { name: "Kenzo Tanaka", initials: "KT" },
+    headline: "Frequência do público de retargeting passou de 6,2 — fadiga de criativo",
+    subline: "A frequência média subiu de {prev|3,8} para {now|6,2} e o CTR caiu 38% em 5 dias.",
+    dir: "down",
+    chartLabel: "Frequência (7d)",
+    chartCurrent: "6,2",
+    series: sSpike, domain: [3, 7],
+    hypothesis: { confidence: "alta", text: "O público de retargeting está saturado — mesmo criativo rodando há 18 dias sem rotação." },
+    firstAction: { text: "Subir 3 variações de criativo novas para o conjunto de retargeting", owner: "Kenzo Tanaka", eta: "em andamento" },
+    followUps: [
+      "Reduzir a janela de retargeting de 30 para 14 dias.",
+      "Excluir compradores dos últimos 7 dias do público.",
+    ],
+    altCauses: [
+      { confidence: "baixa", text: "Público pequeno demais para o orçamento atual — alcance esgotando rápido." },
+    ],
+    impact: { value: "R$ 5.400", note: "gasto otimizado/mês", dir: "up" },
+  },
+  {
+    id: "c6", vector: "ga4",
+    trigger_id: "G4-007",
+    severity: "critico",
+    platform: "GA4",
+    platformIcon: "Analytics",
+    state: "in_progress",
+    timeAgo: "há 1 dia",
+    assignee: { name: "Bruna Lima", initials: "BL" },
+    headline: "Erro 500 intermitente na página de produto em horário de pico",
+    subline: "Taxa de erro em /produto subiu para {now|4,7%} entre 19h e 22h, batendo no horário de maior tráfego.",
+    dir: "down",
+    chartLabel: "Taxa de erro /produto",
+    chartCurrent: "4,7%",
+    series: sSpike, domain: [0, 8],
+    hypothesis: { confidence: "média", text: "Pico de tráfego está estourando o limite de conexões do banco no horário nobre." },
+    firstAction: { text: "Subir o pool de conexões do banco e ativar cache de borda", owner: "Bruna Lima", eta: "em andamento" },
+    followUps: [
+      "Configurar alerta de uptime para a rota /produto.",
+      "Revisar consultas N+1 na página de produto.",
+    ],
+    altCauses: [
+      { confidence: "baixa", text: "Bot de scraping concentrado no horário de pico." },
+    ],
+    impact: { value: "R$ 9.800", note: "receita protegida/mês", dir: "up" },
+  },
+
+  // ── RESOLVIDOS (resolved) ──────────────────────────────────
+  {
+    id: "c7", vector: "midia_paga",
+    trigger_id: "MA-004",
+    severity: "oportunidade",
+    platform: "Meta Ads",
+    platformIcon: "Meta",
+    state: "resolved",
+    timeAgo: "há 4 dias",
+    headline: "Orçamento do criativo UGC vencedor escalado para R$ 5.000/dia",
+    subline: "Escala aplicada no kit “Verão Norte” após ROAS sustentado acima de 4×.",
+    dir: "up",
+    chartLabel: "ROAS pós-escala",
+    chartCurrent: "4,11×",
+    series: sUp, domain: [2, 5],
+    hypothesis: { confidence: "alta", text: "Criativo com headroom de público para escalar sem perder eficiência." },
+    firstAction: { text: "Escalar orçamento e travar o público vencedor", owner: "Gestão de mídia", eta: "concluído" },
+    followUps: [], altCauses: [],
+    impact: { value: "R$ 14.000/dia", note: "esperado", dir: "up" },
+    outcome: {
+      status: "sucesso",
+      metricLabel: "ROAS médio (7d pós-escala)",
+      before: "4,46×", after: "4,11×",
+      expected: "R$ 14.000/dia", real: "R$ 16.200/dia",
+      note: "Receita incremental superou o esperado em 16%.",
+      resolvedAgo: "resolvido há 4 d",
+    },
+  },
+  {
+    id: "c8", vector: "midia_paga",
+    trigger_id: "GA-011",
+    severity: "alto",
+    platform: "Google Ads",
+    platformIcon: "Google",
+    state: "resolved",
+    timeAgo: "há 6 dias",
+    headline: "Lance de marca recuperado após entrada de concorrente",
+    subline: "Lance ajustado +15% e denúncia de marca registrada protocolada.",
+    dir: "up",
+    chartLabel: "Parcela de impressões",
+    chartCurrent: "78%",
+    series: sUp, domain: [60, 90],
+    hypothesis: { confidence: "média", text: "Recuperação parcial enquanto a denúncia tramita." },
+    firstAction: { text: "Aumentar lance e protocolar denúncia", owner: "Gestão de mídia", eta: "concluído" },
+    followUps: [], altCauses: [],
+    impact: { value: "R$ 2.600/mês", note: "esperado", dir: "up" },
+    outcome: {
+      status: "parcial",
+      metricLabel: "Parcela de impressões de marca",
+      before: "64%", after: "78%",
+      expected: "85%", real: "78%",
+      note: "Recuperou parcialmente; aguardando resposta da denúncia.",
+      resolvedAgo: "resolvido há 6 d",
+    },
+  },
+  {
+    id: "c9", vector: "seo",
+    trigger_id: "G4-019",
+    severity: "medio",
+    platform: "GA4",
+    platformIcon: "Analytics",
+    state: "resolved",
+    timeAgo: "há 2 dias",
+    headline: "Schema de Produto publicado na coleção de moletons",
+    subline: "Marcação estruturada adicionada para tentar recuperar posição na SERP.",
+    dir: "neutral",
+    chartLabel: "Sessões orgânicas",
+    chartCurrent: "12.480",
+    series: sWob, domain: [10000, 16000],
+    hypothesis: { confidence: "média", text: "Recuperação depende da reindexação do Google (7 a 14 dias)." },
+    firstAction: { text: "Publicar schema e solicitar reindexação", owner: "Time de eng.", eta: "concluído" },
+    followUps: [], altCauses: [],
+    impact: { value: "R$ 3.100/mês", note: "esperado", dir: "up" },
+    outcome: {
+      status: "apurando",
+      metricLabel: "Posição média na SERP",
+      before: "#11", after: "—",
+      expected: "#4–#6", real: "apurando",
+      note: "Reindexação em andamento; resultado em ~10 dias.",
+      resolvedAgo: "resolvido há 2 d",
+    },
+  },
+
+  // ── IGNORADOS (ignored): snooze vs dispensado ──────────────
+  {
+    id: "c10", vector: "midia_paga",
+    trigger_id: "MA-012",
+    severity: "medio",
+    platform: "Meta Ads",
+    platformIcon: "Meta",
+    state: "ignored",
+    ignoreKind: "snooze",
+    snooze: { label: "soneca 7 d", returns: "volta em 4 d" },
+    timeAgo: "há 3 dias",
+    headline: "Público lookalike 1% com alcance baixo para o orçamento",
+    subline: "Público pequeno agora; vale reavaliar quando a verba subir.",
+    dir: "neutral",
+    chartLabel: "Alcance diário",
+    chartCurrent: "8,2 mil",
+    series: sWob, domain: [5000, 12000],
+    hypothesis: { confidence: "baixa", text: "Público abaixo do volume mínimo recomendado para o ritmo de gasto atual." },
+    firstAction: { text: "Reavaliar quando o orçamento mensal aumentar", owner: "Gestão de mídia", eta: "—" },
+    followUps: [], altCauses: [],
+    impact: { value: "—", note: "sem impacto imediato", dir: "neutral" },
+  },
+  {
+    id: "c11", vector: "ga4",
+    trigger_id: "G4-031",
+    severity: "medio",
+    platform: "GA4",
+    platformIcon: "Analytics",
+    state: "ignored",
+    ignoreKind: "dispensado",
+    dismissed: { label: "dispensado", reason: "não recorrente" },
+    timeAgo: "há 5 dias",
+    headline: "Pico de tráfego direto sem conversão na quarta",
+    subline: "Origem identificada como evento interno de QA; não recorrente.",
+    dir: "neutral",
+    chartLabel: "Sessões diretas",
+    chartCurrent: "1,9 mil",
+    series: sWob, domain: [0, 3000],
+    hypothesis: { confidence: "baixa", text: "Tráfego gerado por teste interno; não representa comportamento de cliente." },
+    firstAction: { text: "Sem ação — descartado da deduplicação", owner: "—", eta: "—" },
+    followUps: [], altCauses: [],
+    impact: { value: "—", note: "ruído de dados", dir: "neutral" },
+  },
+];
+
+// Métricas agregadas da Tela 4 (Resultados apurados)
+const OUTCOME_STATS = {
+  apurados: 14,
+  acerto: "82%",
+  impacto: "R$ 96.400",
+};
+
+// ── Assertividade do Pilot ───────────────────────────────────────────
+// Quanto as hipóteses dos cards se confirmaram EFETIVAS após aplicadas.
+// A série sobe ao longo do tempo: a cada resultado apurado, o Pilot
+// recalibra os gatilhos — a ferramenta se aperfeiçoa sozinha.
+const ASSERTIVIDADE = {
+  atual: 84,            // % de assertividade média no último mês
+  deltaPts: 6,          // variação em pontos vs. mês anterior
+  apurados: 52,         // hipóteses aplicadas e medidas (acumulado)
+  meta: 90,            // alvo de calibração
+  // série mensal: mês, assertividade (%), nº de hipóteses apuradas no mês
+  serie: [
+    { m: "Out", v: 56, n: 4 },
+    { m: "Nov", v: 61, n: 5 },
+    { m: "Dez", v: 64, n: 6 },
+    { m: "Jan", v: 70, n: 6 },
+    { m: "Fev", v: 73, n: 7 },
+    { m: "Mar", v: 78, n: 8 },
+    { m: "Abr", v: 81, n: 7 },
+    { m: "Mai", v: 84, n: 9 },
+  ],
+  // calibração: para cada confiança DECLARADA no card, quanto de fato
+  // se confirmou efetivo pós-aplicação (real). Convergir = bem calibrado.
+  calib: [
+    { tier: "Alta",  declarado: 90, real: 88, n: 21, cls: "alta" },
+    { tier: "Média", declarado: 65, real: 69, n: 19, cls: "media" },
+    { tier: "Baixa", declarado: 35, real: 39, n: 12, cls: "baixa" },
+  ],
+};
+
+window.CLIENT = CLIENT;
+window.USER = USER;
+window.CONNECTIONS = CONNECTIONS;
+window.METRICS = METRICS;
+window.REVENUE_DAYS = REVENUE_DAYS;
+window.CARDS = CARDS;
+window.OUTCOME_STATS = OUTCOME_STATS;
+window.ASSERTIVIDADE = ASSERTIVIDADE;
+
+</script>
+  <script type="text/babel">
+// Lucide-style stroke icons + brand platform marks. Inline SVG, currentColor.
+const Ico = ({ d, size = 16, sw = 1.6, children, ...rest }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24"
+       fill="none" stroke="currentColor" strokeWidth={sw} strokeLinecap="round"
+       strokeLinejoin="round" {...rest}>
+    {d ? <path d={d} /> : children}
+  </svg>
+);
+
+const I = {
+  // nav
+  Dashboard: (p) => <Ico {...p}><rect x="3" y="3" width="7" height="9" rx="1.5" /><rect x="14" y="3" width="7" height="5" rx="1.5" /><rect x="14" y="12" width="7" height="9" rx="1.5" /><rect x="3" y="16" width="7" height="5" rx="1.5" /></Ico>,
+  Columns: (p) => <Ico {...p}><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M9 3v18M15 3v18" /></Ico>,
+  Bell: (p) => <Ico {...p}><path d="M6 8a6 6 0 1 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></Ico>,
+  Results: (p) => <Ico {...p}><path d="M3 3v18h18" /><path d="m7 14 3-3 3 3 5-6" /><circle cx="7" cy="14" r="0.6" fill="currentColor" /></Ico>,
+  Settings: (p) => <Ico {...p}><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></Ico>,
+
+  // chevrons / arrows
+  ChevronDown: (p) => <Ico {...p} d="m6 9 6 6 6-6" />,
+  ChevronRight: (p) => <Ico {...p} d="m9 18 6-6-6-6" />,
+  ChevronUp: (p) => <Ico {...p} d="m18 15-6-6-6 6" />,
+  ArrowUp: (p) => <Ico {...p}><path d="M12 19V5" /><path d="m5 12 7-7 7 7" /></Ico>,
+  ArrowDown: (p) => <Ico {...p}><path d="M12 5v14" /><path d="m19 12-7 7-7-7" /></Ico>,
+  ArrowRight: (p) => <Ico {...p}><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></Ico>,
+  Close: (p) => <Ico {...p}><path d="M18 6 6 18" /><path d="m6 6 12 12" /></Ico>,
+
+  // status / signal
+  TrendUp: (p) => <Ico {...p}><polyline points="22 7 13.5 15.5 8.5 10.5 2 17" /><polyline points="16 7 22 7 22 13" /></Ico>,
+  TrendDown: (p) => <Ico {...p}><polyline points="22 17 13.5 8.5 8.5 13.5 2 7" /><polyline points="16 17 22 17 22 11" /></Ico>,
+  Sparkle: (p) => <Ico {...p}><path d="M12 3v18" /><path d="M3 12h18" /><path d="m5.6 5.6 12.8 12.8" /><path d="m18.4 5.6-12.8 12.8" /></Ico>,
+  Lightning: (p) => <Ico {...p} d="m13 2-9 13h7l-1 7 9-13h-7l1-7z" />,
+  Check: (p) => <Ico {...p} d="M20 6 9 17l-5-5" />,
+  CircleCheck: (p) => <Ico {...p}><circle cx="12" cy="12" r="9" /><path d="m8.5 12 2.5 2.5 4.5-5" /></Ico>,
+  Triangle: (p) => <Ico {...p}><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" /><path d="M12 9v4M12 17h.01" /></Ico>,
+  Clock: (p) => <Ico {...p}><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></Ico>,
+  Snooze: (p) => <Ico {...p}><circle cx="12" cy="13" r="8" /><path d="M5 3 2 6M22 6l-3-3M9 10h6l-6 6h6" /></Ico>,
+  Flag: (p) => <Ico {...p}><path d="M4 22V4M4 4h13l-2 4 2 4H4" /></Ico>,
+  Inbox: (p) => <Ico {...p}><path d="M22 12h-6l-2 3h-4l-2-3H2" /><path d="M5.5 5.1 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.5-6.9A2 2 0 0 0 16.7 4H7.3a2 2 0 0 0-1.8 1.1z" /></Ico>,
+
+  // controls / actions
+  Search: (p) => <Ico {...p}><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></Ico>,
+  Filter: (p) => <Ico {...p} d="M3 6h18M6 12h12M10 18h4" />,
+  Refresh: (p) => <Ico {...p}><path d="M3 12a9 9 0 0 1 15-6.7L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-15 6.7L3 16" /><path d="M3 21v-5h5" /></Ico>,
+  EyeOff: (p) => <Ico {...p}><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 10 8 10 8a13.16 13.16 0 0 1-1.67 2.68" /><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 8 10 8a9.74 9.74 0 0 0 5.39-1.61" /><path d="M14.12 14.12a3 3 0 1 1-4.24-4.24" /><path d="m2 2 20 20" /></Ico>,
+  Eye: (p) => <Ico {...p}><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7" /><circle cx="12" cy="12" r="3" /></Ico>,
+  More: (p) => <Ico {...p}><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /></Ico>,
+  Plus: (p) => <Ico {...p}><path d="M12 5v14M5 12h14" /></Ico>,
+  Pencil: (p) => <Ico {...p}><path d="M12 20h9" /><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z" /></Ico>,
+  Download: (p) => <Ico {...p}><path d="M12 3v12" /><path d="m7 10 5 5 5-5" /><path d="M5 21h14" /></Ico>,
+  Calendar: (p) => <Ico {...p}><rect x="3" y="4" width="18" height="18" rx="2" /><path d="M16 2v4M8 2v4M3 10h18" /></Ico>,
+  User: (p) => <Ico {...p}><circle cx="12" cy="8" r="4" /><path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" /></Ico>,
+  Mail: (p) => <Ico {...p}><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m2 7 10 6 10-6" /></Ico>,
+  Link: (p) => <Ico {...p}><path d="M9 17H7A5 5 0 0 1 7 7h2M15 7h2a5 5 0 0 1 0 10h-2M8 12h8" /></Ico>,
+  Unlink: (p) => <Ico {...p}><path d="M9 17H7A5 5 0 0 1 7 7M15 7h2a5 5 0 0 1 3.5 8.5M2 2l20 20" /></Ico>,
+  Hand: (p) => <Ico {...p}><path d="M18 11V6a2 2 0 0 0-4 0M14 10V4a2 2 0 0 0-4 0v2M10 10.5V6a2 2 0 0 0-4 0v8" /><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2a8 8 0 0 1-7.7-6L3.2 13a2 2 0 0 1 3.6-1.7L8 14" /></Ico>,
+
+  // metrics
+  Coin: (p) => <Ico {...p}><circle cx="12" cy="12" r="9" /><path d="M14.5 9.5a3 3 0 1 0 0 5h-5a3 3 0 0 1 0-5z" /></Ico>,
+  Cart: (p) => <Ico {...p}><circle cx="9" cy="20" r="1" /><circle cx="18" cy="20" r="1" /><path d="M3 4h2.5l2.7 11.2a2 2 0 0 0 2 1.5h7.6a2 2 0 0 0 2-1.5L21 8H6" /></Ico>,
+  Target: (p) => <Ico {...p}><circle cx="12" cy="12" r="9" /><circle cx="12" cy="12" r="5" /><circle cx="12" cy="12" r="1.5" /></Ico>,
+  Gauge: (p) => <Ico {...p}><path d="M12 14 15 9" /><path d="M3.6 16a9 9 0 1 1 16.8 0" /><circle cx="12" cy="14" r="1.4" fill="currentColor" stroke="none" /></Ico>,
+
+  // platform marks (simplified, original silhouettes)
+  Meta: (p) => <Ico {...p} sw={p.sw || 1.8}><path d="M2 14c0-4 2-7 4.5-7 3.5 0 5 10 8.5 10 2 0 3-2 3-5s-1-5-3-5c-3.5 0-5 10-8.5 10C4 17 2 16 2 14z" /></Ico>,
+  Google: (p) => <Ico {...p}><circle cx="12" cy="12" r="9" /><path d="M12 8v8M8 12h8" /></Ico>,
+  Analytics: (p) => <Ico {...p}><rect x="3" y="12" width="4" height="9" rx="1.5" /><rect x="10" y="7" width="4" height="14" rx="1.5" /><rect x="17" y="3" width="4" height="18" rx="1.5" /></Ico>,
+  Megaphone: (p) => <Ico {...p}><path d="M3 11v2a1 1 0 0 0 1 1h2l9 5V5L6 10H4a1 1 0 0 0-1 1z" /><path d="M18.5 8a4 4 0 0 1 0 8" /></Ico>,
+  SocialV: (p) => <Ico {...p}><circle cx="18" cy="5" r="2.6" /><circle cx="6" cy="12" r="2.6" /><circle cx="18" cy="19" r="2.6" /><path d="m8.4 13.4 7.2 4.2M15.6 6.4 8.4 10.6" /></Ico>,
+  Repeat: (p) => <Ico {...p}><path d="m17 2 4 4-4 4" /><path d="M3 11V9a4 4 0 0 1 4-4h14" /><path d="m7 22-4-4 4-4" /><path d="M21 13v2a4 4 0 0 1-4 4H3" /></Ico>,
+  Chat: (p) => <Ico {...p}><path d="M21 11.5a8.38 8.38 0 0 1-8.5 8.5 8.5 8.5 0 0 1-3.8-.9L3 21l1.9-5.7A8.38 8.38 0 0 1 4 11.5 8.5 8.5 0 0 1 12.5 3 8.38 8.38 0 0 1 21 11.5z" /></Ico>,
+  Send: (p) => <Ico {...p}><path d="M22 2 11 13" /><path d="M22 2 15 22l-4-9-9-4 20-7z" /></Ico>,
+  Sparkles: (p) => <Ico {...p}><path d="M12 3l1.6 4.4L18 9l-4.4 1.6L12 15l-1.6-4.4L6 9l4.4-1.6L12 3z" /><path d="M19 14l.8 2.2L22 17l-2.2.8L19 20l-.8-2.2L16 17l2.2-.8L19 14z" /></Ico>,
+  Users: (p) => <Ico {...p}><circle cx="9" cy="8" r="3.4" /><path d="M3 20v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1" /><path d="M16 4.2a3.4 3.4 0 0 1 0 6.6M21 20v-1a5 5 0 0 0-3.5-4.8" /></Ico>,
+  ThumbsUp: (p) => <Ico {...p}><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z" /><path d="M7 10l4-7a2 2 0 0 1 2 2v3h5.5a2 2 0 0 1 2 2.4l-1.4 7A2 2 0 0 1 17 21H7" /></Ico>,
+  ThumbsDown: (p) => <Ico {...p}><path d="M17 14V3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1z" /><path d="M17 14l-4 7a2 2 0 0 1-2-2v-3H5.5a2 2 0 0 1-2-2.4l1.4-7A2 2 0 0 1 7 3h10" /></Ico>,
+};
+
+window.I = I;
+
+</script>
+  <script type="text/babel">
+// EcommPilot — shell e componentes compartilhados (Sidebar, helpers visuais).
+
+const SEV_LABEL = { critico: "Crítico", alto: "Alto", medio: "Médio", oportunidade: "Oportunidade" };
+const SEV_COLOR = {
+  critico: "var(--sev-critico)", alto: "var(--sev-alto)",
+  medio: "var(--sev-medio)", oportunidade: "var(--sev-oportunidade)",
+};
+const SEV_GLYPH = {
+  critico: (p) => <I.Lightning {...p} />,
+  alto: (p) => <I.TrendDown {...p} />,
+  medio: (p) => <I.TrendDown {...p} />,
+  oportunidade: (p) => <I.TrendUp {...p} />,
+};
+
+// ── Severity tag ────────────────────────────────────────────
+function SevTag({ sev, glyph = false, size = 12 }) {
+  const G = SEV_GLYPH[sev];
+  return (
+    <span className="sev-tag" data-sev={sev}>
+      {glyph && <G size={size - 1} sw={2.1} />}
+      {SEV_LABEL[sev]}
+    </span>
+  );
+}
+
+// ── Platform glyph (square chip) ────────────────────────────
+function PlatformGlyph({ icon, size = 30, r = 9 }) {
+  const Comp = I[icon] || I.Analytics;
+  const tint = { Meta: "sky", Google: "amber", Analytics: "violet", Mail: "amber", Search: "sky", SocialV: "pink", Link: "teal" }[icon] || "violet";
+  return (
+    <span className={"plat-glyph plat-" + tint} style={{ width: size, height: size, borderRadius: r }}>
+      <Comp size={Math.round(size * 0.5)} sw={1.9} />
+    </span>
+  );
+}
+
+// ── Avatar (initials) ───────────────────────────────────────
+function Avatar({ initials, size = 26, grad = "amber-rose" }) {
+  const grads = {
+    "amber-rose": "linear-gradient(135deg, var(--amber), var(--rose))",
+    "teal-sky": "linear-gradient(135deg, var(--teal), var(--sky))",
+    "violet-pink": "linear-gradient(135deg, var(--violet), var(--pink))",
+    "indigo-violet": "linear-gradient(135deg, var(--indigo), var(--violet))",
+  };
+  return (
+    <span className="avatar" style={{ width: size, height: size, fontSize: Math.round(size * 0.4), background: grads[grad] }}>
+      {initials}
+    </span>
+  );
+}
+
+// ── Sparkline ───────────────────────────────────────────────
+function Sparkline({ series, width = 120, height = 32, stroke = "currentColor", fill = null, domain = null, sw = 1.6 }) {
+  const min = domain ? domain[0] : Math.min(...series);
+  const max = domain ? domain[1] : Math.max(...series);
+  const range = max - min || 1;
+  const stepX = width / (series.length - 1);
+  const pts = series.map((v, i) => [i * stepX, height - ((v - min) / range) * height]);
+  const d = pts.map(([x, y], i) => `${i === 0 ? "M" : "L"}${x.toFixed(1)},${y.toFixed(1)}`).join(" ");
+  const last = pts[pts.length - 1];
+  return (
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} style={{ display: "block", overflow: "visible" }}>
+      {fill && <path d={`${d} L${width},${height} L0,${height} Z`} fill={fill} opacity="0.16" />}
+      <path d={d} stroke={stroke} strokeWidth={sw} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+      <circle cx={last[0]} cy={last[1]} r="2.4" fill={stroke} />
+    </svg>
+  );
+}
+
+// ── Narrative: interpola {prev|x} e {now|x} ─────────────────
+function Narrative({ text, dir, className = "narrative" }) {
+  const parts = [];
+  const re = /\{(prev|now)\|([^}]+)\}/g;
+  let last = 0, m;
+  while ((m = re.exec(text))) {
+    if (m.index > last) parts.push({ k: "t", v: text.slice(last, m.index) });
+    parts.push({ k: "n", role: m[1], v: m[2] });
+    last = m.index + m[0].length;
+  }
+  if (last < text.length) parts.push({ k: "t", v: text.slice(last) });
+  return (
+    <p className={className}>
+      {parts.map((p, i) => {
+        if (p.k === "t") return <span key={i}>{p.v}</span>;
+        const cls = p.role === "now"
+          ? (dir === "down" ? "num down" : dir === "up" ? "num up" : "num")
+          : "num";
+        return <span key={i} className={cls}>{p.v}</span>;
+      })}
+    </p>
+  );
+}
+
+// ── Sidebar (nav compartilhada) ─────────────────────────────
+function Sidebar({ active, openCount = 0 }) {
+  const items = [
+    { key: "visao",  label: "Visão geral", href: "visao-geral-v2.html", icon: "Dashboard" },
+    { key: "board",  label: "Alertas",     href: "board-v2.html",       icon: "Columns", badge: openCount },
+    { key: "result", label: "Resultados",  href: "resultados-v2.html",  icon: "Results" },
+  ];
+  return (
+    <aside className="sidebar">
+      <div className="brand">
+        <div className="brand-mark">E</div>
+        <div className="brand-name">EcommPilot<sup>®</sup></div>
+      </div>
+
+      <a className="store-switcher" href="admin-v2.html">
+        <span className="store-avatar">{CLIENT.initials}</span>
+        <div className="store-meta">
+          <div className="store-name">{CLIENT.name}</div>
+          <div className="store-url">{CLIENT.account_ref}</div>
+        </div>
+        <I.ChevronDown size={14} className="store-chevron" />
+      </a>
+
+      <div className="nav-section-label">Espaço de trabalho</div>
+      {items.map((it) => (
+        <a key={it.key} className={"nav-item" + (active === it.key ? " active" : "")} href={it.href}>
+          {React.createElement(I[it.icon], { size: 15, className: "icon" })}
+          {it.label}
+          {it.badge > 0 && <span className="badge">{it.badge}</span>}
+        </a>
+      ))}
+
+      <div className="nav-section-label">Configuração</div>
+      <a className={"nav-item" + (active === "admin" ? " active" : "")} href="admin-v2.html">
+        <I.Settings size={15} className="icon" />
+        Admin
+        <span className="badge muted">3</span>
+      </a>
+
+      <div className="nav-spacer" />
+
+      <div className="brief-card">
+        <div className="brief-pill">✦ Pilot</div>
+        <div className="brief-title">Regras detectam, IA humaniza</div>
+        <div className="brief-sub">Cada card já vem com hipótese e primeira ação escritas. Sem pedir análise em tempo real.</div>
+        <a className="brief-btn" href="board-v2.html" style={{ display: "block", textAlign: "center", textDecoration: "none" }}>Ver o board</a>
+      </div>
+
+      <div className="nav-footer">
+        <Avatar initials={USER.initials} size={30} grad="amber-rose" />
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div className="user-name">{USER.name}</div>
+          <div className="user-role">{USER.role}</div>
+        </div>
+        <I.More size={14} style={{ color: "var(--ink-4)" }} />
+      </div>
+    </aside>
+  );
+}
+
+// ── Vetores de crescimento (7) ──────────────────────────────
+const VECTORS = {
+  midia_paga: { label: "Mídia paga", icon: "Megaphone", tint: "violet" },
+  social:     { label: "Social",     icon: "SocialV",   tint: "pink" },
+  seo:        { label: "SEO",        icon: "Search",    tint: "sky" },
+  email:      { label: "Email",      icon: "Mail",      tint: "amber" },
+  ga4:        { label: "GA4",        icon: "Analytics", tint: "indigo" },
+  retencao:   { label: "Retenção",   icon: "Repeat",    tint: "teal" },
+  atribuicao: { label: "Atribuição", icon: "Link",      tint: "slate" },
+};
+const VECTOR_ORDER = ["midia_paga","social","seo","email","ga4","retencao","atribuicao"];
+function VectorChip({ vector, size = "sm" }) {
+  const v = VECTORS[vector];
+  if (!v) return null;
+  const Icon = I[v.icon] || I.Analytics;
+  return (
+    <span className={"vec-chip vec-" + v.tint + (size === "lg" ? " lg" : "")}>
+      <Icon size={size === "lg" ? 13 : 11} sw={1.9} />{v.label}
+    </span>
+  );
+}
+
+Object.assign(window, { SEV_LABEL, SEV_COLOR, SevTag, PlatformGlyph, Avatar, Sparkline, Narrative, Sidebar, VECTORS, VECTOR_ORDER, VectorChip });
+
+</script>
+  <script type="text/babel">
+// Tela 1 — Visão geral (Dashboard). Espelho de leitura; fonte de verdade é o Admin.
+
+const { useState, useEffect, useMemo } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "theme": "light",
+  "density": "regular",
+  "periodo": "7 dias",
+  "metaLine": true
+}/*EDITMODE-END*/;
+
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = t.theme;
+    document.documentElement.dataset.density = t.density;
+  }, [t.theme, t.density]);
+
+  const openCards = useMemo(() => CARDS.filter(c => c.state === "open"), []);
+  const recent = openCards.slice(0, 3);
+
+  const [tourOn, setTourOn] = useState(false);
+  useEffect(() => {
+    const seen = localStorage.getItem("ecp_tour_seen");
+    if (!seen) { const id = setTimeout(() => setTourOn(true), 650); return () => clearTimeout(id); }
+  }, []);
+  const closeTour = () => { setTourOn(false); localStorage.setItem("ecp_tour_seen", "1"); };
+
+  return (
+    <div className="app">
+      <MobileHeader title="Visão geral" />
+      <Sidebar active="visao" openCount={openCards.length} />
+
+      <main className="main">
+        {/* Topbar */}
+        <div className="topbar">
+          <div className="topbar-left">
+            <Avatar initials={CLIENT.initials} size={40} grad="teal-sky" />
+            <div>
+              <h1>{CLIENT.name}</h1>
+              <div className="topbar-sub">{CLIENT.account_ref} · visão geral dos últimos {t.periodo}</div>
+            </div>
+          </div>
+          <div className="topbar-actions">
+            <div className="seg-pill">
+              {["Hoje", "7 dias", "30 dias"].map(r => (
+                <button key={r} className={t.periodo === r ? "active" : ""} onClick={() => setTweak("periodo", r)}>{r}</button>
+              ))}
+            </div>
+            <span className="live-text"><span className="live-dot" /> ao vivo</span>
+            <button className="tour-cta" onClick={() => setTourOn(true)}><span className="tour-pulse" /> Tour</button>
+            <button className="btn-primary-pill" data-tour="pilot"><I.Sparkle size={13} sw={2.2} /> Perguntar ao Pilot</button>
+          </div>
+        </div>
+
+        {/* Métricas */}
+        <div className="metrics" data-tour="metrics">
+          {METRICS.map(m => <MetricCard key={m.key} m={m} />)}
+        </div>
+
+        {/* Receita por dia + Conexões */}
+        <div className="grid-2">
+          <RevenueBlock />
+          <ConnectionsBlock />
+        </div>
+
+        {/* Assertividade do Pilot */}
+        <AssertivenessBlock showMeta={t.metaLine} />
+
+        {/* Alertas recentes */}
+        <div data-tour="alertas">
+          <RecentAlerts recent={recent} total={openCards.length} />
+        </div>
+      </main>
+
+      {tourOn && <Tour onClose={closeTour} />}
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Aparência" />
+        <TweakRadio label="Tema" value={t.theme} options={["light", "dark"]} onChange={(v) => setTweak("theme", v)} />
+        <TweakRadio label="Densidade" value={t.density} options={["compact", "regular", "comfy"]} onChange={(v) => setTweak("density", v)} />
+        <TweakSection label="Período" />
+        <TweakRadio label="Janela" value={t.periodo} options={["Hoje", "7 dias", "30 dias"]} onChange={(v) => setTweak("periodo", v)} />
+        <TweakSection label="Assertividade" />
+        <TweakToggle label="Linha de meta" value={t.metaLine} onChange={(v) => setTweak("metaLine", v)} />
+      </TweaksPanel>
+    </div>
+  );
+}
+
+function MetricCard({ m }) {
+  const tint = { receita: "", pedidos: "teal", roas: "amber", cpa: "rose" }[m.key];
+  const Icon = I[m.icon];
+  return (
+    <div className="metric-card">
+      <div className="metric-head">
+        <div className={"metric-icon " + tint}><Icon size={14} sw={2} /></div>
+        <div className="metric-label">{m.label}</div>
+      </div>
+      <div className="metric-value">{m.value}</div>
+      <div className="metric-foot">
+        <div className={"metric-delta " + (m.good ? "up" : "down")}>
+          <I.ArrowUp size={11} sw={2.4} />{m.deltaText}
+        </div>
+        <Sparkline series={m.series} width={64} height={26}
+                   stroke={m.good ? "var(--teal)" : "var(--rose)"}
+                   fill={m.good ? "var(--teal)" : "var(--rose)"} />
+      </div>
+    </div>
+  );
+}
+
+function AssertivenessBlock({ showMeta = true }) {
+  const A = ASSERTIVIDADE;
+  const serie = A.serie, n = serie.length;
+  // chart geometry (viewBox units)
+  const W = 600, H = 230, padL = 8, padR = 36, padT = 18, padB = 26;
+  const plotW = W - padL - padR, plotH = H - padT - padB;
+  const yMin = 50, yMax = 95;
+  const xFor = (i) => padL + (i / (n - 1)) * plotW;
+  const yFor = (v) => padT + (1 - (v - yMin) / (yMax - yMin)) * plotH;
+  const baseY = padT + plotH;
+  const pts = serie.map((d, i) => ({ ...d, x: xFor(i), y: yFor(d.v) }));
+  const line = pts.map((p, i) => (i ? "L" : "M") + p.x.toFixed(1) + " " + p.y.toFixed(1)).join(" ");
+  const area = `M ${pts[0].x.toFixed(1)} ${baseY} ` + pts.map(p => `L ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(" ") + ` L ${pts[n - 1].x.toFixed(1)} ${baseY} Z`;
+  const gridVals = [60, 70, 80, 90];
+  const last = pts[n - 1];
+
+  return (
+    <section className="block" data-tour="assertividade">
+      <div className="block-head">
+        <div className="block-title">Assertividade do Pilot <span className="sub">aprende a cada resultado apurado</span></div>
+        <span className="meta-chip">{A.apurados} hipóteses apuradas</span>
+      </div>
+
+      <div className="assert-grid">
+        {/* Tendência ao longo do tempo */}
+        <div className="assert-left">
+          <div className="assert-kpi-row">
+            <div className="assert-kpi">{A.atual}<span className="pct">%</span></div>
+            <span className="assert-delta"><I.ArrowUp size={11} sw={2.6} />{A.deltaPts} pts vs. mês anterior</span>
+          </div>
+          <div className="assert-cap">Das hipóteses aplicadas, % que se confirmou efetiva após a ação.</div>
+
+          <svg className="assert-chart" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" role="img"
+               aria-label="Assertividade média por mês, em tendência de alta">
+            <defs>
+              <linearGradient id="assertGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="var(--violet)" stopOpacity="0.18" />
+                <stop offset="100%" stopColor="var(--violet)" stopOpacity="0" />
+              </linearGradient>
+            </defs>
+            {gridVals.map(g => (
+              <line key={g} className="grid-ln" x1={padL} x2={padL + plotW} y1={yFor(g)} y2={yFor(g)} />
+            ))}
+            {showMeta && (
+              <g>
+                <line className="meta-ln" x1={padL} x2={padL + plotW} y1={yFor(A.meta)} y2={yFor(A.meta)} />
+                <text className="meta-tag" x={padL + plotW + 4} y={yFor(A.meta) + 3.5}>meta {A.meta}%</text>
+              </g>
+            )}
+            <path className="area-fill" d={area} />
+            <path className="line-pth" d={line} />
+            {pts.map((p, i) => (
+              i === n - 1
+                ? <circle key={i} className="dot-last" cx={p.x} cy={p.y} r={4.5} />
+                : <circle key={i} className="dot" cx={p.x} cy={p.y} r={3} />
+            ))}
+            <text className="val-tag" x={last.x + 6} y={last.y - 7}>{last.v}%</text>
+            {pts.map((p, i) => (
+              <text key={i} className="axis-lbl" x={p.x} y={H - 7} textAnchor="middle">{p.m}</text>
+            ))}
+          </svg>
+
+          <div className="assert-legend">
+            <span className="li"><span className="sw line" /> assertividade média/mês</span>
+            {showMeta && <span className="li"><span className="sw meta" /> meta de calibração</span>}
+          </div>
+        </div>
+
+        {/* Calibração: confiança declarada × efetividade real */}
+        <div className="calib">
+          <div className="calib-h">Calibração por confiança</div>
+          <div className="calib-sub">Quando o card declara um nível, quanto de fato se confirmou efetivo pós-aplicação.</div>
+          {A.calib.map(c => (
+            <div className="calib-row" key={c.tier}>
+              <div className="calib-top">
+                <span className="calib-tier"><span className={"conf-dot " + c.cls} />{c.tier} confiança</span>
+                <span className="calib-n">n={c.n}</span>
+              </div>
+              <div className="calib-track">
+                <div className={"calib-fill " + c.cls} style={{ width: c.real + "%" }} />
+                <div className="calib-mark" style={{ left: c.declarado + "%" }} title={"declarado " + c.declarado + "%"} />
+              </div>
+              <div className="calib-legend-row">
+                <span className="calib-real">acerta {c.real}%</span>
+                <span className="calib-claim">declara {c.declarado}%</span>
+              </div>
+            </div>
+          ))}
+          <div className="calib-foot">
+            A cada hipótese resolvida, o Pilot reajusta os gatilhos — <b>a barra se aproxima do marcador</b>, e a média sobe ao longo do tempo.
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RevenueBlock() {
+  const max = Math.max(...REVENUE_DAYS.map(d => d.v));
+  const peakIdx = REVENUE_DAYS.findIndex(d => d.v === max);
+  const total = REVENUE_DAYS.reduce((s, d) => s + d.v, 0);
+  const fmt = (v) => "R$ " + (v / 1000).toFixed(1).replace(".", ",") + " mil";
+  return (
+    <section className="block">
+      <div className="block-head">
+        <div className="block-title">Receita por dia <span className="sub">total {fmt(total)}</span></div>
+        <span className="meta-chip">últimos 7 dias</span>
+      </div>
+      <div className="bars">
+        {REVENUE_DAYS.map((d, i) => (
+          <div key={d.d} className={"bar-col" + (i === peakIdx ? " peak" : "")}>
+            <div className="bar-val">{fmt(d.v)}</div>
+            <div className="bar" style={{ height: `${(d.v / max) * 100}%` }} />
+            <div className="bar-day">{d.d}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ConnectionsBlock() {
+  const statusMap = {
+    conectado: { cls: "ok",   label: "conectado" },
+    atraso:    { cls: "warn", label: "atraso na sincronização" },
+    erro:      { cls: "err",  label: "erro de conexão" },
+  };
+  return (
+    <section className="block" data-tour="conexoes">
+      <div className="block-head">
+        <div className="block-title">Conexões <span className="sub">7 vetores de crescimento</span></div>
+        <a className="link-btn" href="admin-v2.html">Gerenciar <I.ArrowRight size={12} /></a>
+      </div>
+      <div>
+        {CONNECTIONS.map(cx => {
+          const s = statusMap[cx.status] || statusMap.conectado;
+          return (
+            <div key={cx.id} className="cx-row">
+              <PlatformGlyph icon={cx.icon} size={34} r={10} />
+              <div className="cx-meta">
+                <div className="cx-name">{cx.platform}</div>
+                <div className="cx-sync">{cx.vector && <VectorChip vector={cx.vector} />} <span className="cx-sync-t">sincronizado {cx.last_sync}</span></div>
+              </div>
+              <span className={"status-badge " + s.cls}><span className="status-dot" />{s.label}</span>
+            </div>
+          );
+        })}
+      </div>
+      <div className="cx-note">
+        <I.Eye size={13} /> Apenas leitura — o status é gerenciado no Admin.
+      </div>
+    </section>
+  );
+}
+
+function RecentAlerts({ recent, total }) {
+  return (
+    <section className="block">
+      <div className="block-head">
+        <div className="block-title">Alertas recentes <span className="sub">{total} em aberto</span></div>
+        <a className="btn-pill dark" href="board-v2.html" style={{ textDecoration: "none" }}>
+          Ver o board <I.ArrowRight size={13} />
+        </a>
+      </div>
+      <div>
+        {recent.map(c => (
+          <a key={c.id} className="recent-row" href={"board-v2.html?card=" + c.id}>
+            <span className="recent-glyph" data-sev={c.severity}>
+              {React.createElement(SEV_GLYPH_LOCAL[c.severity], { size: 16, sw: 2.1 })}
+            </span>
+            <div className="recent-body">
+              <div className="recent-head">{c.headline}</div>
+              <div className="recent-meta">
+                <SevTag sev={c.severity} />
+                <span className="meta-chip">{c.trigger_id}</span>
+                {c.vector && <VectorChip vector={c.vector} />}
+                <span className="meta-src">{c.platform}</span>
+              </div>
+            </div>
+            <span className="recent-time">{c.timeAgo}</span>
+            <I.ChevronRight size={16} style={{ color: "var(--ink-4)" }} />
+          </a>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── Tour interativo (Tela 0B) — spotlight guiado pela Visão geral ──
+const TOUR_STEPS = [
+  { sel: null, place: "center", title: "Bem-vindo ao ecommPilot",
+    body: "Em 5 passos rápidos: como a Visão geral lê suas lojas e onde agir. Você pode pular a qualquer momento." },
+  { sel: '[data-tour="metrics"]', place: "bottom", title: "Seus números do período",
+    body: "Receita, pedidos, ROAS e CPA num relance — com tendência dos últimos 7 dias. Troque a janela no canto superior direito." },
+  { sel: '[data-tour="conexoes"]', place: "left", title: "7 vetores de crescimento",
+    body: "Cada fonte de dados alimenta um vetor — VEC. O ecommPilot cruza todos para encontrar o que move o resultado. Aqui é só leitura; o status mora no Admin." },
+  { sel: '[data-tour="alertas"]', place: "top", title: "Alertas que viram ação",
+    body: "O sistema destaca o que mudou e por quê. Clique num alerta para abrir o detalhe, com hipótese, primeira ação e o Conselheiro IA." },
+  { sel: '[data-tour="pilot"]', place: "bottom", title: "Pergunte ao Pilot",
+    body: "Precisa de um recorte que não está na tela? Pergunte em linguagem natural e o Pilot responde com base nos seus dados conectados." },
+];
+
+function Tour({ onClose }) {
+  const [i, setI] = useState(0);
+  const [box, setBox] = useState(null);
+  const step = TOUR_STEPS[i];
+  const last = i === TOUR_STEPS.length - 1;
+
+  const measure = React.useCallback(() => {
+    if (!step.sel) { setBox(null); return; }
+    const el = document.querySelector(step.sel);
+    if (!el) { setBox(null); return; }
+    const r = el.getBoundingClientRect();
+    const pad = 8;
+    setBox({ top: r.top - pad, left: r.left - pad, width: r.width + pad * 2, height: r.height + pad * 2 });
+  }, [step]);
+
+  useEffect(() => {
+    const el = step.sel && document.querySelector(step.sel);
+    if (el) el.scrollIntoView({ block: "center", behavior: "smooth" });
+    const id = setTimeout(measure, el ? 240 : 0);
+    window.addEventListener("resize", measure);
+    return () => { clearTimeout(id); window.removeEventListener("resize", measure); };
+  }, [i, measure, step]);
+
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "Escape") onClose();
+      else if (e.key === "ArrowRight") setI(v => Math.min(v + 1, TOUR_STEPS.length - 1));
+      else if (e.key === "ArrowLeft") setI(v => Math.max(v - 1, 0));
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [onClose]);
+
+  // Position the popover relative to the spotlight (or centered for intro).
+  const popStyle = (() => {
+    const W = 312, vw = window.innerWidth, vh = window.innerHeight, gap = 16;
+    if (!box) return { top: vh / 2 - 120, left: vw / 2 - W / 2 };
+    let top, left;
+    if (step.place === "bottom") { top = box.top + box.height + gap; left = box.left + box.width / 2 - W / 2; }
+    else if (step.place === "top") { top = box.top - gap - 180; left = box.left + box.width / 2 - W / 2; }
+    else if (step.place === "left") { top = box.top; left = box.left - W - gap; }
+    else { top = box.top; left = box.left + box.width + gap; }
+    left = Math.max(gap, Math.min(left, vw - W - gap));
+    top = Math.max(gap, Math.min(top, vh - 210));
+    return { top, left };
+  })();
+
+  return (
+    <div className="tour-overlay" onClick={(e) => { if (e.target.classList.contains("tour-overlay")) onClose(); }}>
+      {box && <div className="tour-spot" style={box} />}
+      <div className="tour-pop" style={popStyle} onClick={e => e.stopPropagation()}>
+        <div className="tour-step-no">Passo {i + 1} <span className="of">de {TOUR_STEPS.length}</span></div>
+        <h3 className="tour-h">{step.title}</h3>
+        <p className="tour-p">{step.body.split(/(VEC)/).map((part, k) =>
+          part === "VEC"
+            ? <span key={k} className="vchip-inline"><VectorChip vector="midia_paga" /></span>
+            : part)}</p>
+        <div className="tour-foot">
+          <div className="tour-dots">{TOUR_STEPS.map((_, k) => <i key={k} className={k === i ? "on" : ""} />)}</div>
+          {i > 0 && <button className="tour-back" onClick={() => setI(v => v - 1)}>Voltar</button>}
+          {!last
+            ? <button className="tour-next" onClick={() => setI(v => v + 1)}>Próximo <I.ArrowRight size={13} /></button>
+            : <button className="tour-next" onClick={onClose}>Começar <I.ArrowRight size={13} /></button>}
+        </div>
+        {!last && <button className="tour-skip" onClick={onClose} style={{ position: "absolute", top: 12, right: 12 }}>Pular</button>}
+      </div>
+    </div>
+  );
+}
+
+const SEV_GLYPH_LOCAL = {
+  critico: I.Lightning, alto: I.TrendDown, medio: I.TrendDown, oportunidade: I.TrendUp,
+};
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+</script>
+</body>
+</html>
