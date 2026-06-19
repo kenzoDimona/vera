@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import VisaoGeral from './pages/VisaoGeral/index.jsx';
 import Board from './pages/Board/index.jsx';
 import Resultados from './pages/Resultados/index.jsx';
@@ -7,7 +7,7 @@ import Onboarding from './pages/Onboarding/index.jsx';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         <Route path="/" element={<VisaoGeral />} />
         <Route path="/visao-geral" element={<VisaoGeral />} />
@@ -17,6 +17,6 @@ export default function App() {
         <Route path="/contexto" element={<Onboarding />} />
         <Route path="/contexto-onboarding" element={<Onboarding />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
