@@ -73,4 +73,14 @@ export const I = {
   Users: (p) => <Ico {...p}><circle cx="9" cy="8" r="3.4" /><path d="M3 20v-1a5 5 0 0 1 5-5h2a5 5 0 0 1 5 5v1" /><path d="M16 4.2a3.4 3.4 0 0 1 0 6.6M21 20v-1a5 5 0 0 0-3.5-4.8" /></Ico>,
   ThumbsUp: (p) => <Ico {...p}><path d="M7 10v11H4a1 1 0 0 1-1-1v-9a1 1 0 0 1 1-1z" /><path d="M7 10l4-7a2 2 0 0 1 2 2v3h5.5a2 2 0 0 1 2 2.4l-1.4 7A2 2 0 0 1 17 21H7" /></Ico>,
   ThumbsDown: (p) => <Ico {...p}><path d="M17 14V3h3a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1z" /><path d="M17 14l-4 7a2 2 0 0 1-2-2v-3H5.5a2 2 0 0 1-2-2.4l1.4-7A2 2 0 0 1 7 3h10" /></Ico>,
+
+  // onboarding / contexto
+  Rocket: (p) => <Ico {...p}><path d="M5 16c-1.5 1.3-2 5-2 5s3.7-.5 5-2c.7-.8.7-2 0-2.8a2 2 0 0 0-3 0z" /><path d="M9 12a14 14 0 0 1 7-9c2.5 0 5 2.5 5 5a14 14 0 0 1-9 7" /><path d="M9 12l3 3" /><circle cx="15" cy="9" r="1.4" /></Ico>,
+  Shield: (p) => <Ico {...p}><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z" /><path d="m9 12 2 2 4-4" /></Ico>,
+  Shield2: (p) => <Ico {...p}><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z" /></Ico>,
+  Scissors: (p) => <Ico {...p}><circle cx="6" cy="6" r="3" /><circle cx="6" cy="18" r="3" /><path d="M20 4 8.1 15.9M14.5 14.5 20 20M8.1 8.1 12 12" /></Ico>,
+  Launch: (p) => <Ico {...p}><path d="M12 3v6M9 6l3-3 3 3" /><rect x="4" y="9" width="16" height="12" rx="2" /><path d="M4 14h16" /></Ico>,
+  Anchor: (p) => <Ico {...p}><circle cx="12" cy="5" r="2.4" /><path d="M12 7.4V21M5 12a7 7 0 0 0 14 0M5 12H3m16 0h2" /></Ico>,
+  Lock: (p) => <Ico {...p}><rect x="4" y="11" width="16" height="10" rx="2" /><path d="M8 11V7a4 4 0 0 1 8 0v4" /></Ico>,
+  ArrowLeft: (p) => <Ico {...p}><path d="M19 12H5" /><path d="m11 18-6-6 6-6" /></Ico>,
 };
