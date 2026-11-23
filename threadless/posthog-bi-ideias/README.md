@@ -1,6 +1,6 @@
 # PostHog: company BI and innovation database
 
-Projeto no Linear: [P-THR-59](https://linear.app/threadless/project/posthog-company-bi-and-innovation-database-d85ecef05ae5) · Time: Threadless Dev · Status: Planned · Lead: Kenzo
+Projeto no Linear: [P-THR-59](https://linear.app/threadless/project/posthog-company-bi-and-innovation-database-d85ecef05ae5) · Time: Threadless Dev · Status: Planned
 
 > Resumo copiado do Linear em 2026-11-23. Em caso de dúvida, vale o que está no Linear.
 

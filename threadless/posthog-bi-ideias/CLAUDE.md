@@ -1,9 +1,9 @@
 # PostHog: company BI and innovation database
 
-Pasta dedicada ao projeto do Linear **P-THR-59**:
+Projeto da Threadless. Pasta dedicada ao projeto do Linear **P-THR-59** (time Threadless Dev):
 https://linear.app/threadless/project/posthog-company-bi-and-innovation-database-d85ecef05ae5
 
-Este trabalho é da Threadless e não tem relação com o restante deste repositório (o bundle do EcommPilot em `app/`, `project/` e `chats/`). Não misture os dois.
+Não tem relação com o restante deste repositório (o bundle do EcommPilot em `app/`, `project/` e `chats/`). Não misture os dois.
 
 ## Fonte da verdade
 
